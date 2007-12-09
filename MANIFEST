@@ -1,0 +1,19 @@
+config.pl
+COPYING
+debian/changelog
+debian/compat
+debian/control
+debian/copyright
+debian/rules
+debian/watch
+examples/info.pl
+lib/Devel/Mallinfo.pm
+Makefile.PL
+Mallinfo.xs
+MANIFEST			This list of files
+ppport.h
+README
+SIGNATURE
+t/import.t
+t/noimport.t
+META.yml                                 Module meta-data (added by MakeMaker)

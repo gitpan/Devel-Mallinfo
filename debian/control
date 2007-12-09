@@ -1,0 +1,15 @@
+Source: libdevel-mallinfo-perl
+Section: perl
+Priority: optional
+Build-Depends: cdbs, debhelper (>= 4)
+Maintainer: Kevin Ryde <user42@zip.com.au>
+Standards-Version: 3.7.3
+Homepage: http://www.geocities.com/user42_kevin/devel-mallinfo/index.html
+
+Package: libdevel-mallinfo-perl
+Architecture: any
+Depends: ${shlibs:Depends}, ${perl:Depends}
+Description: mallinfo() memory statistics in Perl
+ This is a Perl interface to the C library mallinfo statistics on
+ malloc usage.  It's meant for development use, to see how much is
+ used or free in your Perl program.
