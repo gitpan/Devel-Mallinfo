@@ -29,7 +29,9 @@ WriteMakefile
    LICENSE      => 'gpl',
    SIGN         => 1,
    clean => { FILES =>
-              "config.h conftest.c conftest.i conftest\$(EXE_EXT)"
+              "config.h"
+              . " confmallh.c confmallh\$(EXE_EXT)"
+              . " confminfo.c confminfo\$(EXE_EXT) confminfo.i"
               . " Mallinfo.html" },
 );
 
@@ -50,15 +52,8 @@ sub constants {
 sub postamble {
     return <<'MAKE_FRAG';
 
-config.h: config.pl conftest.c Makefile
-	-$(MAKE) conftest$(EXE_EXT)
-	-$(MAKE) conftest.i
-	$(PERL) config.pl --check conftest$(EXE_EXT)
-conftest.c: config.pl
-	$(PERL) config.pl --generate conftest.c
-conftest.i: conftest.c
-conftest.o: conftest.c
-conftest$(EXE_EXT): conftest.o
+config.h: config.pl Makefile
+	$(PERL) config.pl "$(MAKE)" "$(EXE_EXT)"
 
 
 # some development helpers ...

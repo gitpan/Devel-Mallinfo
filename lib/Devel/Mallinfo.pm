@@ -22,8 +22,9 @@ use warnings;
 use Exporter;
 
 # Version 1 - the first version
+# Version 2 - notice missing malloc.h in the build
 #
-our $VERSION = 1;
+our $VERSION = 2;
 
 our @ISA = qw(DynaLoader Exporter);
 require DynaLoader;

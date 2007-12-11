@@ -15,15 +15,17 @@
    You should have received a copy of the GNU General Public License along
    with Devel::Mallinfo.  If not, see <http://www.gnu.org/licenses/>. */
 
+#include "config.h"
+
 #include <stdlib.h>
+#if HAVE_MALLOC_H
 #include <malloc.h>
+#endif
 
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
-
 #include "ppport.h"
-#include "config.h"
 
 MODULE = Devel::Mallinfo   PACKAGE = Devel::Mallinfo
 
