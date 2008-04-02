@@ -1,4 +1,4 @@
-# Copyright 2007 Kevin Ryde
+# Copyright 2007, 2008 Kevin Ryde
 
 # This file is part of Devel::Mallinfo.
 
@@ -23,8 +23,9 @@ use Exporter;
 
 # Version 1 - the first version
 # Version 2 - notice missing malloc.h in the build
+# Version 3 - debian dir fixes, attempt config.pl fixes for msdos
 #
-our $VERSION = 2;
+our $VERSION = 3;
 
 our @ISA = qw(DynaLoader Exporter);
 require DynaLoader;
@@ -102,7 +103,7 @@ reference to an empty hash.
 
 =head1 OTHER NOTES
 
-On a 64-bit system with a 32-bit C<"int">, the C<int> fields used in
+On a 64-bit system with a 32-bit C C<"int">, the C<int> fields used in
 C<struct mallinfo> might overflow (and wrap around to small or negative
 values).  This is a known C library problem, which C<Devel::Mallinfo>
 doesn't try to do anything about.

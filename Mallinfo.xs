@@ -1,4 +1,4 @@
-/* Copyright 2007 Kevin Ryde
+/* Copyright 2007, 2008 Kevin Ryde
 
    This file is part of Devel::Mallinfo.
 
@@ -25,6 +25,8 @@
 #include "EXTERN.h"
 #include "perl.h"
 #include "XSUB.h"
+
+#define NEED_newRV_noinc
 #include "ppport.h"
 
 MODULE = Devel::Mallinfo   PACKAGE = Devel::Mallinfo
