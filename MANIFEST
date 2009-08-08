@@ -1,3 +1,4 @@
+Changes
 config.pl
 COPYING
 debian/changelog
@@ -7,14 +8,18 @@ debian/copyright
 debian/rules
 debian/watch
 examples/info.pl
+inc/MyMakeMakerExtras.pm
 lib/Devel/Mallinfo.pm
 Makefile.PL
 Mallinfo.xs
 MANIFEST			This list of files
+MANIFEST.SKIP
 ppport.h
 README
 SIGNATURE
+t/0-META-read.t
+t/0-Test-DistManifest.t
+t/0-Test-Pod.t
 t/import.t
 t/noimport.t
-t/pod.t
 META.yml                                 Module meta-data (added by MakeMaker)

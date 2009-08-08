@@ -15,28 +15,33 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 8624bcdae55baeef00cd11d5dfcfa60f68710a02 COPYING
-SHA1 5d5b7e442442c77f5ae23f63856a1b98cb77d417 MANIFEST
-SHA1 2b7f705b1c52813f2e5d5ebe8999f31ca5b3ee0a META.yml
-SHA1 d14a212eddd11951d087172c8a44bd4557b2f203 Makefile.PL
-SHA1 8ae78e13373d87c24330bc36dda2a2ecad1de348 Mallinfo.xs
-SHA1 92ad9d87d5413292860d9ea997ca46822b950666 README
-SHA1 10903242a927a7e57a63ae805aef10d5c8e8b992 config.pl
-SHA1 6c8f924d2137b3f51fc601ce38efab350d89b127 debian/changelog
-SHA1 1b6453892473a467d07372d45eb05abc2031647a debian/compat
-SHA1 f8e30b1f84bee6c2567b27f36ce9a38f93c365ab debian/control
-SHA1 0ec2250b02a5b05061fa9f8dcf0580e22734c7cb debian/copyright
-SHA1 6f86c27e152708855abba6f2ec959bc25c5d6ee4 debian/rules
-SHA1 db4ff03d2b14d35068f56af021912a88fe88bbf9 debian/watch
-SHA1 e75a79e3b21986c4491cf06e94f3f753aa99423a examples/info.pl
-SHA1 1da9cf4c4071d862c0f16c8c444c302e6cab24c7 lib/Devel/Mallinfo.pm
-SHA1 9b4aa6dedfdb08584bdad46ebbfa1a8862196dad ppport.h
-SHA1 5156267ae3f5f92388117b2cd01712e7fbdb538f t/import.t
-SHA1 0a95ce3caccd7d2904a7ef953b0f2c2611dd107a t/noimport.t
-SHA1 a661a39e55a4127aecb1b97a631c4f01f7dce8c6 t/pod.t
+SHA1 7d83d6b038f067afdda5331bf5079cace4e1bfdd Changes
+SHA1 ffb99b3dcccf0cad586d236b45119a7555ee56ef MANIFEST
+SHA1 e81cad1de14a8dab9cf4714ca7015c735806d38a MANIFEST.SKIP
+SHA1 874602fd11b15815ce225700622d725dcecab300 META.yml
+SHA1 44e6103b402834ae05d1a98c5863eec36a4c8013 Makefile.PL
+SHA1 d686546437e41a6ab718cf48629989cf5593b4d6 Mallinfo.xs
+SHA1 d06c878fe4581fb54a4ae2299638796fc75a366a README
+SHA1 0a98a3fe4503f21556561b367ec860731cfa33e4 config.pl
+SHA1 90afef7d0a8ecd4e28e4bd77089eecd94da8f069 debian/changelog
+SHA1 ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 debian/compat
+SHA1 b8eef5c5b553d8c0cbb74c9fc8d6ceeb8cc720fa debian/control
+SHA1 b85c788db00e483f6c1df2d5f0eefc0345c12dc5 debian/copyright
+SHA1 87c7b0a2de17df69557449e3aa2673f32bd4cdd1 debian/rules
+SHA1 c4ae94e182c83be095fcb8f3e495915ef278c0b6 debian/watch
+SHA1 d3f511ff3840663520d36ad78166fdcdf68c2cbb examples/info.pl
+SHA1 aa68f1b1c87f2a6af739b4d24a004945c770e190 inc/MyMakeMakerExtras.pm
+SHA1 161e1572faed76e4672af9822051e4a4a2b64c18 lib/Devel/Mallinfo.pm
+SHA1 6f942a3aa4b7201650bbc0cc2a3b3b6ca3b6a14c ppport.h
+SHA1 4351c3885de5689729bfeda126cd22dfe7b21260 t/0-META-read.t
+SHA1 a343ed4dce96d05de51eed1ec065911584b96fce t/0-Test-DistManifest.t
+SHA1 bba0dc087cbe64d8f100ab77e6cef061c0bebf27 t/0-Test-Pod.t
+SHA1 66f6aff8a0beef02621f8602b97b29811faa26d4 t/import.t
+SHA1 335ecd691ccfcc653db63315c64ae32179d07e92 t/noimport.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.6 (GNU/Linux)
+Version: GnuPG v1.4.9 (GNU/Linux)
 
-iD8DBQFH9A1DLFMCIV9q3ToRArVyAJ4qJz2Yl3P4yE7ryEFKjYtYLmbRXQCcDFCV
-oj8vSPWUW4OqgWfHMxE7JYg=
-=IwOg
+iD8DBQFKfK+QLFMCIV9q3ToRAgxtAKC5tesXb8m4cf2N6nKextB16uL7tgCguSOw
+waPRnlrSmK1YflMKsJVxtXg=
+=aZz+
 -----END PGP SIGNATURE-----
