@@ -1,9 +1,9 @@
 #!/usr/bin/perl
 
-# Copyright 2007, 2008, 2009 Kevin Ryde
+# Copyright 2010 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
-
+#
 # Devel-Mallinfo is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the Free
 # Software Foundation; either version 3, or (at your option) any later
@@ -19,28 +19,19 @@
 
 use strict;
 use warnings;
-use Devel::Mallinfo ('mallinfo');
-use Test::More tests => 7;
+use Test::More tests => 2;
 
 SKIP: { eval 'use Test::NoWarnings; 1'
           or skip 'Test::NoWarnings not available', 1; }
 
-my $want_version = 5;
-cmp_ok ($Devel::Mallinfo::VERSION,'>=',$want_version, 'VERSION variable');
-cmp_ok (Devel::Mallinfo->VERSION, '>=',$want_version, 'VERSION class method');
-{ ok (eval { Devel::Mallinfo->VERSION($want_version); 1 },
-      "VERSION class check $want_version");
-  my $check_version = $want_version + 1000;
-  ok (! eval { Devel::Mallinfo->VERSION($check_version); 1 },
-      "VERSION class check $check_version");
+require Devel::Mallinfo;
+SKIP: {
+  defined &Devel::Mallinfo::malloc_stats
+    or skip 'malloc_stats() not available', 1;
+
+  Devel::Mallinfo::malloc_stats();
+  Devel::Mallinfo::malloc_stats();
+  ok (1, 'malloc_stats() ran successfully');
 }
-
-ok (defined &mallinfo,
-    'mallinfo() defined in local module');
-
-# get back a hash, though what it contains is system-dependent
-my $h = mallinfo();
-is (ref($h), 'HASH',
-    'mallinfo() returns hash');
 
 exit 0;

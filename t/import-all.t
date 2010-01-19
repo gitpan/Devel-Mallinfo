@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright 2007, 2008, 2009 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 
@@ -19,28 +19,24 @@
 
 use strict;
 use warnings;
-use Devel::Mallinfo ('mallinfo');
-use Test::More tests => 7;
+use Devel::Mallinfo ':all';
+use Test::More tests => 6;
 
 SKIP: { eval 'use Test::NoWarnings; 1'
           or skip 'Test::NoWarnings not available', 1; }
 
-my $want_version = 5;
-cmp_ok ($Devel::Mallinfo::VERSION,'>=',$want_version, 'VERSION variable');
-cmp_ok (Devel::Mallinfo->VERSION, '>=',$want_version, 'VERSION class method');
-{ ok (eval { Devel::Mallinfo->VERSION($want_version); 1 },
-      "VERSION class check $want_version");
-  my $check_version = $want_version + 1000;
-  ok (! eval { Devel::Mallinfo->VERSION($check_version); 1 },
-      "VERSION class check $check_version");
+ok (defined &mallinfo, 'mallinfo() imported');
+
+foreach my $name ('malloc_stats',
+                  'malloc_info',
+                  'malloc_info_string',
+                  'malloc_trim') {
+  my $fullname = "Devel::Mallinfo::$name";
+  if (exists &$fullname) {
+    ok (exists &$name, "$name() imported");
+  } else {
+    ok (! exists &$name, "$name() not imported as doesn't exist");
+  }
 }
-
-ok (defined &mallinfo,
-    'mallinfo() defined in local module');
-
-# get back a hash, though what it contains is system-dependent
-my $h = mallinfo();
-is (ref($h), 'HASH',
-    'mallinfo() returns hash');
 
 exit 0;

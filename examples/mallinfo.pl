@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright 2007, 2008, 2009 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -23,7 +23,7 @@
 # Print the hash of information returned by Devel::Mallinfo::mallinfo().
 #
 # In this program mallinfo() is the first thing done, so the values will be
-# near the minimum for any perl program.  You can see how many megs your
+# near the minimum for any Perl program.  You can see how many megs your
 # actual program and libraries add to it!
 #
 # The printf has a hard-coded 10 chars for the names and 7 for the values,
@@ -32,7 +32,8 @@
 use strict;
 use warnings;
 use Devel::Mallinfo;
-my $h = Devel::Mallinfo::mallinfo;
+
+my $h = Devel::Mallinfo::mallinfo();
 print "mallinfo:\n";
 foreach my $field (sort keys %$h) {
   printf "  %-10s  %7d\n", $field, $h->{$field};

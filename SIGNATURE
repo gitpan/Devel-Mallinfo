@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.55.
+signed via the Module::Signature module, version 0.61.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -14,34 +14,50 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 8624bcdae55baeef00cd11d5dfcfa60f68710a02 COPYING
-SHA1 7d83d6b038f067afdda5331bf5079cace4e1bfdd Changes
-SHA1 ffb99b3dcccf0cad586d236b45119a7555ee56ef MANIFEST
-SHA1 e81cad1de14a8dab9cf4714ca7015c735806d38a MANIFEST.SKIP
-SHA1 874602fd11b15815ce225700622d725dcecab300 META.yml
-SHA1 44e6103b402834ae05d1a98c5863eec36a4c8013 Makefile.PL
-SHA1 d686546437e41a6ab718cf48629989cf5593b4d6 Mallinfo.xs
+SHA1 842745cb706f8f2126506f544492f7a80dbe29b3 COPYING
+SHA1 01bc8486b3cf0e2ba661444be7d1a1e88a75a260 Changes
+SHA1 ed916d45b35b57426230463ce55b0ceec575a6d3 MANIFEST
+SHA1 47e5be03e0efe91d61f5e60148916598298b2578 MANIFEST.SKIP
+SHA1 0b112b1b22bd49d82b8903b7586bfae52a58a43c META.yml
+SHA1 429cbf534a59c9e5a89553b8dcac2f444ad01c58 Makefile.PL
+SHA1 de92367689e0e49f4d0e8d9d449d3cec2dd06b44 Mallinfo.xs
 SHA1 d06c878fe4581fb54a4ae2299638796fc75a366a README
-SHA1 0a98a3fe4503f21556561b367ec860731cfa33e4 config.pl
-SHA1 90afef7d0a8ecd4e28e4bd77089eecd94da8f069 debian/changelog
+SHA1 4bf19476991e74b33cb1e09a6cdc8f444dd53d19 debian/changelog
 SHA1 ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 debian/compat
-SHA1 b8eef5c5b553d8c0cbb74c9fc8d6ceeb8cc720fa debian/control
-SHA1 b85c788db00e483f6c1df2d5f0eefc0345c12dc5 debian/copyright
+SHA1 0f75c2200c24309ca22929ced9d05f09a59bfe6f debian/control
+SHA1 8169126357297e2d4e20c93e28a3596baaef16a4 debian/copyright
 SHA1 87c7b0a2de17df69557449e3aa2673f32bd4cdd1 debian/rules
-SHA1 c4ae94e182c83be095fcb8f3e495915ef278c0b6 debian/watch
-SHA1 d3f511ff3840663520d36ad78166fdcdf68c2cbb examples/info.pl
-SHA1 aa68f1b1c87f2a6af739b4d24a004945c770e190 inc/MyMakeMakerExtras.pm
-SHA1 161e1572faed76e4672af9822051e4a4a2b64c18 lib/Devel/Mallinfo.pm
-SHA1 6f942a3aa4b7201650bbc0cc2a3b3b6ca3b6a14c ppport.h
-SHA1 4351c3885de5689729bfeda126cd22dfe7b21260 t/0-META-read.t
+SHA1 52e25f4c1a84ae334451211a7ac407f607a7769e debian/watch
+SHA1 dd126f863a472a3a01192d784230588ab315a86b devel/Makefile
+SHA1 a547db2b322cb11544d22032e7f0a80979adfae2 devel/info-string.pl
+SHA1 209ac9a553c3b5538d623c52bda5388b7b35f63b devel/run.pl
+SHA1 d0272c95a50ea53320af833388d441a18933cbd3 examples/mallinfo.pl
+SHA1 01156c0f154bbdf3ec229c29cc231e9189943b6a examples/malloc-info-string.pl
+SHA1 92b7bcdb7cc99777884b8bf6f9b2d65cb2ea9ffc examples/malloc-info.pl
+SHA1 1ee83777af71c1f4902e444e38c2391b7e660fd3 examples/malloc-stats.pl
+SHA1 04b47938da4980ca0da3d5560d7826ef3139e861 inc/MyMakeMakerExtras.pm
+SHA1 3228932770da7df85f5f74320936528c0386c76e inc/config.pl
+SHA1 c288a1a9bacecf0a71eab5e053565d4872daf4ba inc/my_pod2html
+SHA1 81a3934f8dd1e555e724c1327101a0f3b54a4096 lib/Devel/Mallinfo.pm
+SHA1 847ddd74867e960646b4c166ab42047db4f9a1c4 ppport.h
+SHA1 378b932305fb60823467c2af3c771fe3fc295a13 t/0-META-read.t
 SHA1 a343ed4dce96d05de51eed1ec065911584b96fce t/0-Test-DistManifest.t
 SHA1 bba0dc087cbe64d8f100ab77e6cef061c0bebf27 t/0-Test-Pod.t
-SHA1 66f6aff8a0beef02621f8602b97b29811faa26d4 t/import.t
-SHA1 335ecd691ccfcc653db63315c64ae32179d07e92 t/noimport.t
+SHA1 5fa94e1e88e44064d1e6b21c88a4c9374a17bfd1 t/0-Test-Synopsis.t
+SHA1 39fb4f79da7687abc825c4ea646acb3ee9e3a342 t/0-Test-YAML-Meta.t
+SHA1 c59284ca96447c51bc8e4d476b07b597bce393f5 t/MyWithoutGNU.pm
+SHA1 cf3815b1a0740b45d66e70002ecd8af7d8c5c1fd t/import-all.t
+SHA1 2ca2b58a0a39b474aaf22947bbd3a57c559f0e85 t/import.t
+SHA1 f82a5fa45771040e5cc29e56ab77758658580e0b t/malloc-info-string.t
+SHA1 48dc8d448148becabcc677818deb4c329ee680c8 t/malloc-info.t
+SHA1 ffd1253201f24b5b34bcc9d757e6d04e0b877e77 t/malloc-stats.t
+SHA1 8e2c678e4c0d65acd1b938a507a7fddcdff93e1a t/malloc-trim.t
+SHA1 26f3d6b1a0818a4a182b3edf5880785e5b0d01b2 t/noimport.t
+SHA1 49e0e2873e7ffc30b0175bb7fe51b96632368b36 t/test-weaken.t
 -----BEGIN PGP SIGNATURE-----
-Version: GnuPG v1.4.9 (GNU/Linux)
+Version: GnuPG v1.4.10 (GNU/Linux)
 
-iD8DBQFKfK+QLFMCIV9q3ToRAgxtAKC5tesXb8m4cf2N6nKextB16uL7tgCguSOw
-waPRnlrSmK1YflMKsJVxtXg=
-=aZz+
+iD8DBQFLVQMoLFMCIV9q3ToRAkZQAJ44GOx/mFKRfgv2oVh83YNNsepO1ACeJPbi
+5xXtjfrrMdjw2K3477SIXQ4=
+=9chu
 -----END PGP SIGNATURE-----

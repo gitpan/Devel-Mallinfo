@@ -25,7 +25,7 @@ use Test::More tests => 8;
 SKIP: { eval 'use Test::NoWarnings; 1'
           or skip 'Test::NoWarnings not available', 1; }
 
-my $want_version = 4;
+my $want_version = 5;
 cmp_ok ($Devel::Mallinfo::VERSION,'>=',$want_version, 'VERSION variable');
 cmp_ok (Devel::Mallinfo->VERSION, '>=',$want_version, 'VERSION class method');
 { ok (eval { Devel::Mallinfo->VERSION($want_version); 1 },

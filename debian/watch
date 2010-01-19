@@ -24,4 +24,4 @@
 
 version=3
 http://user42.tuxfamily.org/devel-mallinfo/index.html \
-	.*/Devel-Mallinfo-([0-9]+)\.tgz
+	.*/Devel-Mallinfo-([0-9]+)\.tar\.gz

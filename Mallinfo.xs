@@ -1,4 +1,4 @@
-/* Copyright 2007, 2008 Kevin Ryde
+/* Copyright 2007, 2008, 2009, 2010 Kevin Ryde
 
    This file is part of Devel-Mallinfo.
 
@@ -29,11 +29,30 @@
 #define NEED_newRV_noinc
 #include "ppport.h"
 
+/* for testing ... */
+/* #define tmpfile()   fopen("/tmp/fullfs/tmp/tmpfile","w+b") */
+
+
+#if HAVE_MALLOC_INFO
+static void
+slurp_fp_to_sv (FILE *fp, SV *sv)
+{
+  char buf[256];
+  int  got;
+  sv_setpvn (sv, "", 0);
+  for (;;) {
+    got = fread (buf, 1, sizeof(buf), fp);
+    if (got == 0)
+      return;
+    sv_catpvn (sv, buf, got);
+  }
+}
+#endif
+
 MODULE = Devel::Mallinfo   PACKAGE = Devel::Mallinfo
 
 SV *
 mallinfo ()
-PROTOTYPE:
 CODE:
   {
     HV *h;
@@ -68,3 +87,55 @@ CODE:
   }
 OUTPUT:
     RETVAL
+
+
+#if HAVE_MALLOC_INFO
+
+int
+malloc_info (int options, FILE *fp)
+
+void
+malloc_info_string (int options)
+PPCODE:
+  {
+    FILE *fp;
+    SV *ret = &PL_sv_undef;
+    int err;
+
+    fp = tmpfile();
+    if (fp != NULL) {
+      err = malloc_info (options, fp);
+      if (err != 0) {
+        errno = err;
+      } else if (ferror (fp)) {
+        /* write error to fp */
+      } else {
+        SV *sv;
+        rewind (fp);
+        sv = sv_newmortal();
+        slurp_fp_to_sv (fp, sv);
+        if (! ferror (fp))  /* a read error */
+          ret = sv;
+      }
+      if (fclose (fp) != 0) {
+        ret = &PL_sv_undef;
+      }
+    }
+    PUSHs(ret);
+  }
+
+#endif
+
+#if HAVE_MALLOC_STATS
+
+void
+malloc_stats ()
+
+#endif
+
+#if HAVE_MALLOC_TRIM
+
+int
+malloc_trim (size_t leave)
+
+#endif

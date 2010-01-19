@@ -1,5 +1,4 @@
 Changes
-config.pl
 COPYING
 debian/changelog
 debian/compat
@@ -7,7 +6,15 @@ debian/control
 debian/copyright
 debian/rules
 debian/watch
-examples/info.pl
+devel/info-string.pl
+devel/Makefile
+devel/run.pl
+examples/mallinfo.pl
+examples/malloc-info-string.pl
+examples/malloc-info.pl
+examples/malloc-stats.pl
+inc/config.pl
+inc/my_pod2html
 inc/MyMakeMakerExtras.pm
 lib/Devel/Mallinfo.pm
 Makefile.PL
@@ -20,6 +27,15 @@ SIGNATURE
 t/0-META-read.t
 t/0-Test-DistManifest.t
 t/0-Test-Pod.t
+t/0-Test-Synopsis.t
+t/0-Test-YAML-Meta.t
+t/import-all.t
 t/import.t
+t/malloc-info-string.t
+t/malloc-info.t
+t/malloc-stats.t
+t/malloc-trim.t
+t/MyWithoutGNU.pm
 t/noimport.t
+t/test-weaken.t
 META.yml                                 Module meta-data (added by MakeMaker)

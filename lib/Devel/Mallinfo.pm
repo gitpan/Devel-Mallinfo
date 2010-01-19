@@ -1,4 +1,4 @@
-# Copyright 2007, 2008, 2009 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -21,21 +21,27 @@ use warnings;
 use Exporter;
 use vars qw($VERSION @ISA @EXPORT_OK %EXPORT_TAGS);
 
-$VERSION = 4;
+$VERSION = 5;
 
+use Exporter;
+use DynaLoader;
 @ISA = qw(DynaLoader Exporter);
 @EXPORT_OK = ('mallinfo');
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
 require DynaLoader;
 bootstrap Devel::Mallinfo $VERSION;
+if (defined &malloc_info)         { push @EXPORT_OK, 'malloc_info';  }
+if (defined &malloc_info_string)  { push @EXPORT_OK, 'malloc_info_string';  }
+if (defined &malloc_stats)        { push @EXPORT_OK, 'malloc_stats'; }
+if (defined &malloc_trim)         { push @EXPORT_OK, 'malloc_trim'; }
 
 1;
 __END__
 
 =head1 NAME
 
-Devel::Mallinfo -- mallinfo() memory statistics
+Devel::Mallinfo -- mallinfo() memory statistics, and more
 
 =head1 SYNOPSIS
 
@@ -43,21 +49,34 @@ Devel::Mallinfo -- mallinfo() memory statistics
  my $hashref = Devel::Mallinfo::mallinfo();
  print "uordblks used space ", $hashref->{'uordblks'}, "\n";
 
- # or import into your namespace per Exporter
- use Devel::Mallinfo ('mallinfo');
- my $hashref = mallinfo();
+ Devel::Mallinfo::malloc_stats();  # GNU systems
 
 =head1 DESCRIPTION
 
 C<Devel::Mallinfo> is an interface to the C library C<mallinfo> function
-giving various totals for memory used by C<malloc>.  This is meant for
-development to give you an idea what your program and libraries is using.
+giving various totals for memory used by C<malloc>.  It's meant for
+development, to give you an idea what your program and libraries are using.
+Interfaces to some GNU C Library specific malloc information is provided
+too, when available.
 
-Note C<malloc> isn't the only way memory can be used.  Program and library
-data and bss segments and the occasional direct C<mmap> don't show up in
-C<mallinfo>.  Normally however almost all runtime space goes through
-C<malloc>, so it's close to the total, and dynamic runtime usage is often
-what you're interested in anyway.
+Note that C<malloc> isn't the only way memory may be used.  Program and
+library data and bss segments and the occasional direct C<mmap> don't show
+up in C<mallinfo>.  But normally almost all runtime space goes through
+C<malloc> so it's close to the total, and dynamic usage is often what you're
+interested in anyway.
+
+=head1 EXPORTS
+
+Nothing is exported by default.  Call with fullly qualified function names
+or import in the usual way (see L<Exporter>),
+
+    use Devel::Mallinfo ('mallinfo');
+    $h = mallinfo();
+
+C<":all"> imports everything
+
+    use Devel::Mallinfo ':all';
+    mallinfo_stats();  # on a GNU system
 
 =head1 FUNCTIONS
 
@@ -67,14 +86,14 @@ what you're interested in anyway.
 
 Return a reference to a hash of the C<struct mallinfo> values obtained from
 C<mallinfo>.  The keys are field name strings, and the values are integers.
-For example,
+For example
 
-    { 'arena'    => 1234,
-      'uordblks' => 5678,
+    { 'arena'    => 16384,
+      'uordblks' => 1234,
       ...
     }
 
-So to print (in no particular order),
+So to print (in no particular order)
 
     my $info = Devel::Mallinfo::mallinfo();
     foreach my $field (keys %$info) {
@@ -83,32 +102,87 @@ So to print (in no particular order),
 
 Field names are grepped out of C<struct mallinfo> at build time, so
 everything on your system should be available.  If C<mallinfo> is not
-available in the particular C<malloc> library Perl is using then
-C<Devel::Mallinfo::mallinfo> returns a reference to an empty hash.
+available at all in a particular C<malloc> library Perl is using then
+C<mallinfo()> returns a reference to an empty hash.
 
 =back
 
 =head2 Fields
 
-See the C<mallinfo> man page, or the GNU C Library Reference Manual section
-"Statistics for Memory Allocation with `malloc'", for what the fields mean.
+See the C<mallinfo> man page or the GNU C Library Reference Manual section
+"Statistics for Memory Allocation with `malloc'" for details of what the
+fields mean.
 
-For reference, on a modern system C<arena> plus C<hblkhd> is the total
-memory taken from the system.  C<hblkhd> space is big blocks in use by the
-program.  Within the C<arena> space C<uordblks> plus C<usmblks> is currently
-in use, and C<fordblks> plus C<fsmblks> is free.
+On a modern system C<arena> plus C<hblkhd> is the total bytes taken from the
+system.  C<hblkhd> space is mmapped big blocks currently in use.  C<arena>
+space is from C<sbrk()> and within it C<uordblks> plus C<usmblks> is
+currently in use, and C<fordblks> plus C<fsmblks> is free.
 
-C<hblkhd> space is returned to the system when freed.  C<arena> space may be
-reduced by shrinking when there's enough free blocks at its end to be worth
-doing.  C<keepcost> is the current free space at the end which could be
-given back.
+C<hblkhd> space is immediately returned to the system when freed.  C<arena>
+space is shrunk when there's enough free at the top to be worth doing.
+C<keepcost> is the current free bytes at the end which could be given back.
+
+=head1 EXTRA FUNCTIONS
+
+=head2 GNU C Library
+
+The following are available in recent versions of the GNU C Library.  If not
+available then they're not provided by C<Devel::Mallinfo>.
+
+=over 4
+
+=item C<Devel::Mallinfo::malloc_stats()>
+
+Print a malloc usage summary to standard error.  The print is to the C
+C<stderr>, not Perl C<STDERR> so in the unlikely event you added buffering
+to C<STDERR> you may want to flush to keep output in sequence.  (C<STDERR>
+is unbuffered by default.)
+
+=item C<$status = Devel::Mallinfo::malloc_info ($options, $fh)>
+
+=item C<$str = Devel::Mallinfo::malloc_info_string ($options)>
+
+Print malloc usage information to file handle C<$fh>, or return it as a
+string C<$str>.  There are no C<$options> values yet and that parameter
+should be 0.
+
+C<malloc_info> returns 0 on success.  It writes to C<$fh> as a C C<FILE*>,
+so PerlIO layers are ignored and any UTF8 flag may be forcibly turned off by
+this action.  Perhaps this will improve in the future.
+
+    Devel::Mallinfo::malloc_info(0,\*STDOUT) == 0
+      or die "oops, malloc_info() error";
+
+C<malloc_info_string> is an extra in C<Devel::Mallinfo> getting the output
+as a string (via a temporary file, in the current implementation).  On error
+it returns C<undef> and sets errno C<$!>.
+
+    my $str = Devel::Mallinfo::malloc_info_string(0)
+      // die "Cannot get malloc_info() error: $!";
+
+The output is vaguely XML and has more detail than C<mallinfo> gives.  If
+attempting a full parse then note Glibc 2.10.1 and earlier was missing a
+couple of closing quotes in the final "system" elements.
+
+=item C<$status = Devel::Mallinfo::malloc_trim ($bytes)>
+
+Trim free space at the top of the arena down to C<$bytes>.  Return 1 if
+memory was freed, 0 if not.  Normally C<free> itself trims when there's
+enough to be worth releasing, but if you think the C<keepcost> is high then
+you can explicitly release some.
+
+libc only frees whole pages, so if C<$bytes> doesn't end up reducing by at
+least a whole page then the return will be 0.  Glibc also notices if someone
+else has allocated memory with C<sbrk> and it won't touch that.
+
+=back
 
 =head1 OTHER NOTES
 
 On a 64-bit system with a 32-bit C C<int> type, the C<int> fields in
-C<struct mallinfo> might overflow (and wrap around to small or negative
-values).  This is a known C library problem, which C<Devel::Mallinfo>
-doesn't try to do anything about.
+C<struct mallinfo> may overflow and either wrap around to small or negative
+values, or hopefully cap at C<INT_MAX>.  This is a known C library problem
+and C<Devel::Mallinfo> doesn't try to do anything about it.
 
 The C<mallopt> function would be a logical companion to C<mallinfo>, but
 generally it must be called before the first ever C<malloc>, so anything in
@@ -120,7 +194,7 @@ http://user42.tuxfamily.org/devel-mallinfo/index.html
 
 =head1 LICENSE
 
-Devel-Mallinfo is Copyright 2007, 2008, 2009 Kevin Ryde
+Devel-Mallinfo is Copyright 2007, 2008, 2009, 2010 Kevin Ryde
 
 Devel-Mallinfo is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free
