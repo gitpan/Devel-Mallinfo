@@ -26,7 +26,6 @@
 #include "perl.h"
 #include "XSUB.h"
 
-#define NEED_newRV_noinc
 #include "ppport.h"
 
 /* for testing ... */
@@ -51,12 +50,10 @@ slurp_fp_to_sv (FILE *fp, SV *sv)
 
 MODULE = Devel::Mallinfo   PACKAGE = Devel::Mallinfo
 
-SV *
+HV *
 mallinfo ()
 CODE:
   {
-    HV *h;
-    SV *href;
 #if HAVE_MALLINFO
     struct mallinfo m;
 
@@ -64,16 +61,15 @@ CODE:
        that in "current" usage */
     m = mallinfo();
 #endif
-    h = newHV();
-    href = newRV_noinc ((SV*) h);
-    RETVAL = href;
+    RETVAL = newHV();
+    sv_2mortal((SV*)RETVAL);
 /**/
 #if HAVE_MALLINFO
-#define FIELD(field)                                    \
-  do {                                                  \
-    SV *val = newSViv (m.field);                        \
-    if (! hv_store (h, #field, strlen(#field), val, 0)) \
-      goto store_error;                                 \
+#define FIELD(field)                            \
+  do {                                          \
+    SV *val = newSViv (m.field);                \
+    if (! hv_stores (RETVAL, #field, val))      \
+      goto store_error;                         \
   } while (0)
 
     STRUCT_MALLINFO_FIELDS;
@@ -114,7 +110,7 @@ PPCODE:
         rewind (fp);
         sv = sv_newmortal();
         slurp_fp_to_sv (fp, sv);
-        if (! ferror (fp))  /* a read error */
+        if (! ferror (fp))
           ret = sv;
       }
       if (fclose (fp) != 0) {

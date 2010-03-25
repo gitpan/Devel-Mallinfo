@@ -8,6 +8,7 @@ debian/rules
 debian/watch
 devel/info-string.pl
 devel/Makefile
+devel/mstat.pl
 devel/run.pl
 examples/mallinfo.pl
 examples/malloc-info-string.pl

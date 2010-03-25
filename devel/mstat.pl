@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright 2009, 2010 Kevin Ryde
+# Copyright 2010 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -17,20 +17,16 @@
 # You should have received a copy of the GNU General Public License along
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
-
-# In a real program be aware that the FILE* interface in malloc_info() may
-# bypass perlio layers on STDOUT (or whatever handle given), and may turn
-# off a utf8 flag there too.
-
 use strict;
 use warnings;
-use Devel::Mallinfo;
+use Config;
+use Devel::Peek;
 
-print "malloc_info() from the GNU C Library:\n";
-if (defined &Devel::Mallinfo::malloc_info) {
-  Devel::Mallinfo::malloc_info(0,\*STDOUT);
-} else {
-  print "  not available\n";
+foreach (qw(usemymalloc)) {
+  print "$_ $Config::Config{$_}\n";
 }
+# my %h;
+# mstats_fillhash(%h, 1);
+# print keys %h,"\n";
 
 exit 0;

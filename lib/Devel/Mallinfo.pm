@@ -21,16 +21,16 @@ use warnings;
 use Exporter;
 use vars qw($VERSION @ISA @EXPORT_OK %EXPORT_TAGS);
 
-$VERSION = 5;
-
 use Exporter;
 use DynaLoader;
-@ISA = qw(DynaLoader Exporter);
+@ISA = ('Exporter', 'DynaLoader');
+
+$VERSION = 6;
+
 @EXPORT_OK = ('mallinfo');
 %EXPORT_TAGS = (all => \@EXPORT_OK);
 
-require DynaLoader;
-bootstrap Devel::Mallinfo $VERSION;
+Devel::Mallinfo->bootstrap($VERSION);
 if (defined &malloc_info)         { push @EXPORT_OK, 'malloc_info';  }
 if (defined &malloc_info_string)  { push @EXPORT_OK, 'malloc_info_string';  }
 if (defined &malloc_stats)        { push @EXPORT_OK, 'malloc_stats'; }
@@ -185,8 +185,16 @@ values, or hopefully cap at C<INT_MAX>.  This is a known C library problem
 and C<Devel::Mallinfo> doesn't try to do anything about it.
 
 The C<mallopt> function would be a logical companion to C<mallinfo>, but
-generally it must be called before the first ever C<malloc>, so anything in
-Perl is much too late.
+generally it must be called before the first ever C<malloc>, so anything at
+the Perl level is much too late.
+
+=head1 SEE ALSO
+
+C<mallinfo(3)>, GNU C Library Manual "Statistics for Memory Allocation with
+`malloc'"
+
+C<Devel::Peek/Memory footprint debugging> for statistics if using Perl's
+builtin C<malloc>
 
 =head1 HOME PAGE
 
@@ -207,10 +215,6 @@ or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
 more details.
 
 You should have received a copy of the GNU General Public License along with
-Devel-Mallinfo.  If not, see http://www.gnu.org/licenses/.
-
-=head1 SEE ALSO
-
-C<mallinfo(3)>
+Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 =cut

@@ -29,8 +29,10 @@ require Devel::Mallinfo;
 #-----------------------------------------------------------------------------
 # malloc_info() basic run
 
+my $have_malloc_info = defined &Devel::Mallinfo::malloc_info;
+
 SKIP: {
-  defined &Devel::Mallinfo::malloc_info
+  $have_malloc_info
     or skip 'malloc_info() not available', 2;
 
   Devel::Mallinfo::malloc_info(0,\*STDERR);
@@ -43,14 +45,44 @@ SKIP: {
 #-----------------------------------------------------------------------------
 # malloc_info() induced failure from tmpfile()
 
-SKIP: {
-  defined &Devel::Mallinfo::malloc_info
-    or skip 'malloc_info() not available', 2;
-  eval { require BSD::Resource; 1 }
-    or skip 'BSD::Resource not available', 2;
+my $have_bsd_resource = eval { require BSD::Resource; 1 };
+if (! $have_bsd_resource) { diag "BSD::Resource not available -- $@"; }
+
+my $have_rlimit_nofile;
+if ($have_bsd_resource) {
   my $limits = BSD::Resource::get_rlimits();
-  defined $limits->{'RLIMIT_NOFILE'}
-    or skip 'RLMIT_NOFILE not available', 2;
+  $have_rlimit_nofile = defined $limits->{'RLIMIT_NOFILE'};
+  if (! $have_rlimit_nofile) { diag "RLIMIT_NOFILE not available"; }
+}
+
+# don't think would have RLIMIT_NOFILE but then getrlimit() throwing "not
+# implemented on this architecture", but check just in case
+my $have_getrlimit;
+if ($have_rlimit_nofile) {
+  $have_getrlimit = eval {
+    BSD::Resource::getrlimit (BSD::Resource::RLIMIT_NOFILE());
+    1;
+  };
+  if (! $have_getrlimit) { diag "getrlimit() not available -- $@"; }
+}
+
+# even less likely to have getrlimit() but not then setrlimit(), but check
+# just in case
+my $have_setrlimit;
+if ($have_getrlimit) {
+  my ($soft, $hard) = BSD::Resource::getrlimit(BSD::Resource::RLIMIT_NOFILE());
+  $have_setrlimit = eval {
+    BSD::Resource::setrlimit (BSD::Resource::RLIMIT_NOFILE(), $soft, $hard);
+    1;
+  };
+  if (! $have_setrlimit) { diag "setrlimit() not available -- $@"; }
+}
+
+SKIP: {
+  $have_malloc_info
+    or skip 'malloc_info() not available', 2;
+  $have_setrlimit
+    or skip 'setrlimit(RLIMIT_NOFILE) not available', 2;
 
   my ($soft, $hard) = BSD::Resource::getrlimit(BSD::Resource::RLIMIT_NOFILE());
   diag "RLIMIT_NOFILE soft $soft hard $hard";

@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Devel-Mallinfo
-version:            5
+version:            6
 abstract:           Get mallinfo() malloc memory stats, and more.
 author:
     - Kevin Ryde <user42@zip.com.au>
@@ -28,6 +28,10 @@ meta-spec:
     url:      http://module-build.sourceforge.net/META-spec-v1.4.html
     version:  1.4
 optional_features:
+    maximum_devel:
+        description:  Stuff used variously for development.
+        requires:
+            Pod::Simple::HTML:  0
     maximum_tests:
         description:  Have "make test" do as much as possible.
         requires:
