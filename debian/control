@@ -25,13 +25,13 @@ Section: perl
 Priority: optional
 Build-Depends: cdbs, debhelper (>= 5), libtest-more-perl | perl (>= 5.6.2)
 Maintainer: Kevin Ryde <user42@zip.com.au>
-Standards-Version: 3.8.4
+Standards-Version: 3.9.0
 Homepage: http://user42.tuxfamily.org/devel-mallinfo/index.html
 Bugs: mailto:user42@zip.com.au
 
 Package: libdevel-mallinfo-perl
 Architecture: any
-Depends: perl (>= 5.6), ${perl:Depends}, ${shlibs:Depends}, ${misc:Depends}
+Depends: perl, libvars-perl | perl (>= 5.002), libwarnings-perl | perl (>= 5.6), ${perl:Depends}, ${misc:Depends}, ${shlibs:Depends}
 Description: mallinfo() memory statistics in Perl, and more
  This is a Perl interface to the C library mallinfo() statistics on
  malloc usage.  It's meant for development use, to see how much is

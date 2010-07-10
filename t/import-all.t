@@ -27,10 +27,11 @@ SKIP: { eval 'use Test::NoWarnings; 1'
 
 ok (defined &mallinfo, 'mallinfo() imported');
 
-foreach my $name ('malloc_stats',
-                  'malloc_info',
-                  'malloc_info_string',
-                  'malloc_trim') {
+foreach ('malloc_stats',
+         'malloc_info',
+         'malloc_info_string',
+         'malloc_trim') {
+  my $name = $_;
   my $fullname = "Devel::Mallinfo::$name";
   if (exists &$fullname) {
     ok (exists &$name, "$name() imported");

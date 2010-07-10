@@ -29,6 +29,7 @@
 # The printf has a hard-coded 10 chars for the names and 7 for the values,
 # but you could find the widest of each at runtime if you wanted.
 
+use 5.004;
 use strict;
 use warnings;
 use Devel::Mallinfo;

@@ -43,8 +43,7 @@ MyMakeMakerExtras::WriteMakefile
    clean => { FILES =>
               "config.h"
               . " conftest.c conftest.i"
-              . " conftest\$(OBJ_EXT) conftest\$(EXE_EXT)"
-              . " Mallinfo.html" },
+              . " conftest\$(OBJ_EXT) conftest\$(EXE_EXT) a.out" },
    H => [ 'config.h' ],
 
    # not sure mallinfo() does anything with Perl's malloc(), but try to
@@ -82,13 +81,17 @@ config.h: inc/config.pl Makefile
 # A reasonable "make" should already have a default rule for obj->exe, or at
 # least for c->exe, but that's apparently not the case for dmake on msdos,
 # and MakeMaker doesn't generate one, hence this rule for the config tests.
+#
+# This is only a phony target, generating either a.out or conftest.exe or
+# whatever default output from $(LD).  Adding a "-o exename" doesn't work
+# with microsoft cl.
+#
 # PERL_ARCHIVE is meant for a dynamic extension, which is what Mallinfo.xs
 # will be, but not sure if it's correct in a plain .exe link. 
 #
-conftest$(EXE_EXT): conftest$(OBJ_EXT)
+conftest-link: conftest$(OBJ_EXT)
 	$(LD) $(LDFLAGS) conftest$(OBJ_EXT) $(OTHERLDFLAGS) \
-	  $(PERL_ARCHIVE) $(LDLOADLIBS) $(PERL_ARCHIVE_AFTER) \
-	  -o $@
+	  $(PERL_ARCHIVE) $(LDLOADLIBS) $(PERL_ARCHIVE_AFTER)
 
 HERE
 }

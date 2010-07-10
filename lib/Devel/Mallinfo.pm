@@ -25,7 +25,7 @@ use Exporter;
 use DynaLoader;
 @ISA = ('Exporter', 'DynaLoader');
 
-$VERSION = 6;
+$VERSION = 7;
 
 @EXPORT_OK = ('mallinfo');
 %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -39,9 +39,12 @@ if (defined &malloc_trim)         { push @EXPORT_OK, 'malloc_trim'; }
 1;
 __END__
 
+=for stopwords malloc bss runtime mmapped unbuffered PerlIO UTF8 errno Glibc
+libc builtin Devel-Mallinfo Ryde
+
 =head1 NAME
 
-Devel::Mallinfo -- mallinfo() memory statistics, and more
+Devel::Mallinfo -- mallinfo() memory statistics and more
 
 =head1 SYNOPSIS
 
@@ -55,19 +58,19 @@ Devel::Mallinfo -- mallinfo() memory statistics, and more
 
 C<Devel::Mallinfo> is an interface to the C library C<mallinfo> function
 giving various totals for memory used by C<malloc>.  It's meant for
-development, to give you an idea what your program and libraries are using.
-Interfaces to some GNU C Library specific malloc information is provided
-too, when available.
+development use, to give you an idea how much memory your program and
+libraries are using.  Interfaces to some GNU C Library specific malloc
+information is provided too, when available.
 
-Note that C<malloc> isn't the only way memory may be used.  Program and
-library data and bss segments and the occasional direct C<mmap> don't show
-up in C<mallinfo>.  But normally almost all runtime space goes through
+C<malloc> isn't the only way memory may be used.  Program and library data
+and bss segments and the occasional direct C<mmap> don't show up in
+C<mallinfo>.  However normally almost all runtime space goes through
 C<malloc> so it's close to the total, and dynamic usage is often what you're
 interested in anyway.
 
 =head1 EXPORTS
 
-Nothing is exported by default.  Call with fullly qualified function names
+Nothing is exported by default.  Call with fully qualified function names
 or import in the usual way (see L<Exporter>),
 
     use Devel::Mallinfo ('mallinfo');
@@ -100,9 +103,9 @@ So to print (in no particular order)
       print "$field is $info->{$field}\n";
     }
 
-Field names are grepped out of C<struct mallinfo> at build time, so
-everything on your system should be available.  If C<mallinfo> is not
-available at all in a particular C<malloc> library Perl is using then
+Field names are grepped from C<struct mallinfo> in F<malloc.h> at build
+time, so everything on your system should be available.  If C<mallinfo> is
+not available at all in whatever C<malloc> library Perl is using then
 C<mallinfo()> returns a reference to an empty hash.
 
 =back
@@ -114,9 +117,9 @@ See the C<mallinfo> man page or the GNU C Library Reference Manual section
 fields mean.
 
 On a modern system C<arena> plus C<hblkhd> is the total bytes taken from the
-system.  C<hblkhd> space is mmapped big blocks currently in use.  C<arena>
-space is from C<sbrk()> and within it C<uordblks> plus C<usmblks> is
-currently in use, and C<fordblks> plus C<fsmblks> is free.
+system.  C<hblkhd> is mmapped big blocks currently in use.  C<arena> space
+is from C<sbrk()> and within that C<uordblks> plus C<usmblks> is currently
+in use, and C<fordblks> plus C<fsmblks> is free.
 
 C<hblkhd> space is immediately returned to the system when freed.  C<arena>
 space is shrunk when there's enough free at the top to be worth doing.
@@ -133,10 +136,10 @@ available then they're not provided by C<Devel::Mallinfo>.
 
 =item C<Devel::Mallinfo::malloc_stats()>
 
-Print a malloc usage summary to standard error.  The print is to the C
-C<stderr>, not Perl C<STDERR> so in the unlikely event you added buffering
-to C<STDERR> you may want to flush to keep output in sequence.  (C<STDERR>
-is unbuffered by default.)
+Print a malloc usage summary to standard error.  It goes to the C C<stderr>,
+not Perl C<STDERR> so in the unlikely event you added buffering to C<STDERR>
+you might have to flush to keep output in sequence.  (C<STDERR> is
+unbuffered by default.)
 
 =item C<$status = Devel::Mallinfo::malloc_info ($options, $fh)>
 
@@ -161,7 +164,7 @@ it returns C<undef> and sets errno C<$!>.
       // die "Cannot get malloc_info() error: $!";
 
 The output is vaguely XML and has more detail than C<mallinfo> gives.  If
-attempting a full parse then note Glibc 2.10.1 and earlier was missing a
+attempting a strict parse then note Glibc 2.10.1 and earlier was missing a
 couple of closing quotes in the final "system" elements.
 
 =item C<$status = Devel::Mallinfo::malloc_trim ($bytes)>
@@ -171,7 +174,7 @@ memory was freed, 0 if not.  Normally C<free> itself trims when there's
 enough to be worth releasing, but if you think the C<keepcost> is high then
 you can explicitly release some.
 
-libc only frees whole pages, so if C<$bytes> doesn't end up reducing by at
+Glibc only frees whole pages, so if C<$bytes> doesn't end up reducing by at
 least a whole page then the return will be 0.  Glibc also notices if someone
 else has allocated memory with C<sbrk> and it won't touch that.
 
@@ -181,8 +184,8 @@ else has allocated memory with C<sbrk> and it won't touch that.
 
 On a 64-bit system with a 32-bit C C<int> type, the C<int> fields in
 C<struct mallinfo> may overflow and either wrap around to small or negative
-values, or hopefully cap at C<INT_MAX>.  This is a known C library problem
-and C<Devel::Mallinfo> doesn't try to do anything about it.
+values, or maybe cap at C<INT_MAX>.  This is a known C library problem and
+C<Devel::Mallinfo> doesn't try to do anything about it.
 
 The C<mallopt> function would be a logical companion to C<mallinfo>, but
 generally it must be called before the first ever C<malloc>, so anything at
@@ -190,10 +193,10 @@ the Perl level is much too late.
 
 =head1 SEE ALSO
 
-C<mallinfo(3)>, GNU C Library Manual "Statistics for Memory Allocation with
+L<mallinfo(3)>, GNU C Library Manual "Statistics for Memory Allocation with
 `malloc'"
 
-C<Devel::Peek/Memory footprint debugging> for statistics if using Perl's
+L<Devel::Peek/Memory footprint debugging>, for statistics if using Perl's
 builtin C<malloc>
 
 =head1 HOME PAGE

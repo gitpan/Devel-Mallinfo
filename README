@@ -1,4 +1,4 @@
-Copyright 2007, 2009 Kevin Ryde
+Copyright 2007, 2009, 2010 Kevin Ryde
 
 This file is part of Devel-Mallinfo.
 
@@ -20,8 +20,8 @@ with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 Devel::Mallinfo is an interface to the C library mallinfo() function
 giving malloc memory allocation statistics.  This is meant for
-development use, to give you an idea of how much space your program
-and any libraries are using from malloc().
+development use, to give an idea of how much space your program and
+any libraries are using from malloc().
 
 The only prerequisite is a C compiler for the XS, and Perl version
 5.6 or higher (or a backport of warnings.pm).  The Devel::Mallinfo
