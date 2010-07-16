@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Devel-Mallinfo
-version:            7
+version:            8
 abstract:           Get mallinfo() malloc memory stats, and more.
 author:
     - Kevin Ryde <user42@zip.com.au>

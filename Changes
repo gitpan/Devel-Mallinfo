@@ -16,6 +16,9 @@ You should have received a copy of the GNU General Public License along
 with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 
+Version 8, July 2010
+    - MANIFEST.SKIP vc80.pdb so as not to tickle 0-Test-DistManifest.t
+
 Version 7, July 2010
     - relax the compile+link test to try to work on ms-dos
 
