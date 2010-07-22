@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 # Copyright 2010 Kevin Ryde
 
@@ -26,10 +26,11 @@ my $have_test_weaken = eval "use Test::Weaken 3.002; 1";
 if (! $have_test_weaken) {
   plan skip_all => "due to Test::Weaken 3.002 not available -- $@";
 }
-plan tests => 3;
+plan tests => 2;
 
-SKIP: { eval 'use Test::NoWarnings; 1'
-          or skip 'Test::NoWarnings not available', 1; }
+use lib 't';
+use MyTestHelpers;
+BEGIN { MyTestHelpers::nowarnings(); }
 
 diag ("Test::Weaken version ", Test::Weaken->VERSION);
 

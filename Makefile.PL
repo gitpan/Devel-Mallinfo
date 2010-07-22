@@ -33,9 +33,12 @@ MyMakeMakerExtras::WriteMakefile
    ABSTRACT     => 'Get mallinfo() malloc memory stats, and more.',
    VERSION_FROM => 'lib/Devel/Mallinfo.pm',
    PREREQ_PM    => {
-                    'Test::More' => 0,
                     'vars' => 0,
                     'warnings' => 0,
+
+                    # for testing
+                    'Test::More' => 0,
+                    'lib' => 0,
                    },
    AUTHOR       => 'Kevin Ryde <user42@zip.com.au>',
    LICENSE      => 'gpl',
@@ -58,8 +61,7 @@ MyMakeMakerExtras::WriteMakefile
         optional_features
         => { maximum_tests
              => { description => 'Have "make test" do as much as possible.',
-                  requires => { 'Test::NoWarnings' => 0,
-                                'Scalar::Util'     => 0,
+                  requires => { 'Scalar::Util'     => 0,
                                 'Test::Weaken'     => 0,
                               },
                 },

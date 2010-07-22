@@ -23,7 +23,7 @@
 Source: libdevel-mallinfo-perl
 Section: perl
 Priority: optional
-Build-Depends: cdbs, debhelper (>= 5), libtest-more-perl | perl (>= 5.6.2)
+Build-Depends: libtest-more-perl | perl (>= 5.6.2), cdbs, debhelper (>= 5)
 Maintainer: Kevin Ryde <user42@zip.com.au>
 Standards-Version: 3.9.0
 Homepage: http://user42.tuxfamily.org/devel-mallinfo/index.html

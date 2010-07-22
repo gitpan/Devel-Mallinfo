@@ -41,6 +41,7 @@ t/malloc-info-string.t
 t/malloc-info.t
 t/malloc-stats.t
 t/malloc-trim.t
+t/MyTestHelpers.pm
 t/MyWithoutGNU.pm
 t/noimport.t
 t/test-weaken.t

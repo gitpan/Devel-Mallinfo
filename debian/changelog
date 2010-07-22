@@ -1,5 +1,5 @@
-libdevel-mallinfo-perl (8-1) unstable; urgency=low
+libdevel-mallinfo-perl (9-1) unstable; urgency=low
 
   * Packaged version.
 
- -- Kevin Ryde <user42@zip.com.au>  Fri, 16 Jul 2010 11:41:20 +1000
+ -- Kevin Ryde <user42@zip.com.au>  Fri, 23 Jul 2010 07:28:19 +1000

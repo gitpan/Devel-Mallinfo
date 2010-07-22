@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
 # Copyright 2007, 2008, 2009, 2010 Kevin Ryde
 
@@ -20,12 +20,13 @@
 use strict;
 use warnings;
 use Devel::Mallinfo ('mallinfo');
-use Test::More tests => 7;
+use Test::More tests => 6;
 
-SKIP: { eval 'use Test::NoWarnings; 1'
-          or skip 'Test::NoWarnings not available', 1; }
+use lib 't';
+use MyTestHelpers;
+BEGIN { MyTestHelpers::nowarnings(); }
 
-my $want_version = 8;
+my $want_version = 9;
 cmp_ok ($Devel::Mallinfo::VERSION,'==',$want_version, 'VERSION variable');
 cmp_ok (Devel::Mallinfo->VERSION, '==',$want_version, 'VERSION class method');
 { ok (eval { Devel::Mallinfo->VERSION($want_version); 1 },
