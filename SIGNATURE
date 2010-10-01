@@ -1,5 +1,5 @@
 This file contains message digests of all files listed in MANIFEST,
-signed via the Module::Signature module, version 0.63.
+signed via the Module::Signature module, version 0.66.
 
 To verify the content in this distribution, first make sure you have
 Module::Signature installed, then type:
@@ -15,56 +15,56 @@ not run its Makefile.PL or Build.PL.
 Hash: SHA1
 
 SHA1 842745cb706f8f2126506f544492f7a80dbe29b3 COPYING
-SHA1 30fa32ba379a2f64fdac138bd90f2be64d2fdcce Changes
-SHA1 1ce3da81b124c95fdd0afc2d518063d9045f356b MANIFEST
-SHA1 9f057ed3ba7d042426c4d899f7685b4ae05076b2 MANIFEST.SKIP
-SHA1 f73698a042853f5f21ee47afbb1c7b07cc8ed7ff META.yml
-SHA1 2c18da0bebb7bb02557c02605a739d3158c4174a Makefile.PL
+SHA1 78a5a7866dcd1b05f48c4c78802df76029eac06d Changes
+SHA1 44297f9d000fde0aab91c4b3c598c4f72f97bd2c MANIFEST
+SHA1 e6e7c2904ea5d300c0ddf70fc5a80f5005229aa9 MANIFEST.SKIP
+SHA1 c6165f7b8111ecccfddf00270010fd2fc144ff06 META.yml
+SHA1 f0f25950b16f6f8e3d54069847d3252767fb9250 Makefile.PL
 SHA1 9560513f21e4c27671059b64f4b33f299da99441 Mallinfo.xs
 SHA1 4f203daee980e17f9beaed6ad828198c140e14e0 README
-SHA1 6bbf839cdd8e6cd4d0b6b81128c266976d0c2f00 debian/changelog
+SHA1 6ccb8c14e78ce3a727d7cee1ddc197d57a4ee020 debian/changelog
 SHA1 ac3478d69a3c81fa62e60f5c3696165a4e5e6ac4 debian/compat
-SHA1 aeb4d7926dd8b5482d96c66d83150af319527197 debian/control
+SHA1 5dbd8eb7830af8e317b6c32e837299b7b620a036 debian/control
 SHA1 8169126357297e2d4e20c93e28a3596baaef16a4 debian/copyright
 SHA1 87c7b0a2de17df69557449e3aa2673f32bd4cdd1 debian/rules
 SHA1 61652cd1568dcf2614df833eba241755eee34e89 debian/source/format
 SHA1 52e25f4c1a84ae334451211a7ac407f607a7769e debian/watch
 SHA1 dd126f863a472a3a01192d784230588ab315a86b devel/Makefile
 SHA1 428b3208a020d7fe9d32acf76f3589bac91f918f devel/hblk.c
-SHA1 a547db2b322cb11544d22032e7f0a80979adfae2 devel/info-string.pl
+SHA1 4a19d3a5a44ad1e88fd8733305814755d1eda0a2 devel/info-string.pl
 SHA1 2957c8a3b69ccac9c59553764b3c7c53a3d4a3ac devel/mallopt.c
 SHA1 32dd3c7de251cc15ff60caa65c35222f55c6c588 devel/mallstats.c
 SHA1 c88d6419ac7bf990e392b5dd2e89daa1c20938ec devel/malltrim.c
-SHA1 aa9e8fb8857de8552b95008274457d6c101d9049 devel/mstat.pl
-SHA1 209ac9a553c3b5538d623c52bda5388b7b35f63b devel/run.pl
-SHA1 9e8ae4daee4e7e55858ba0fe1390b84ace2296cf examples/mallinfo.pl
-SHA1 01156c0f154bbdf3ec229c29cc231e9189943b6a examples/malloc-info-string.pl
-SHA1 92b7bcdb7cc99777884b8bf6f9b2d65cb2ea9ffc examples/malloc-info.pl
-SHA1 1ee83777af71c1f4902e444e38c2391b7e660fd3 examples/malloc-stats.pl
-SHA1 c692d671972440c53db493553cd899af86e36a4d inc/MyMakeMakerExtras.pm
+SHA1 853637c0483504bdec15b82b0a86a5601caace61 devel/mstat.pl
+SHA1 cb3d715f9add0288caee1671efa08b1737ef59d6 devel/run.pl
+SHA1 79dc77e0a7e274942f19fb24f42e2acc8715c31c examples/mallinfo.pl
+SHA1 11ab3f6904227365659add0846471647a3a1f46c examples/malloc-info-string.pl
+SHA1 d0a1bb400e186c1f8fe6c70a4b461ad8cd1a9d68 examples/malloc-info.pl
+SHA1 2bf2120e346ab2201116091fd7337fb199f258e6 examples/malloc-stats.pl
+SHA1 3cf3345a9177dbe362dfc8fbf192272f4a611ca8 inc/MyMakeMakerExtras.pm
 SHA1 67b8709963c1cb61fa32587fbe40123ecf363b82 inc/config.pl
 SHA1 692a1ddc2ca6b98cac7b48ea40bc1ac1509e8ed9 inc/my_pod2html
-SHA1 71b56cf3bece0cb27ca36229a42a5ac6877edc26 lib/Devel/Mallinfo.pm
+SHA1 fad2653302ece953ab405d76c27ec8d6ccbeea1e lib/Devel/Mallinfo.pm
 SHA1 847ddd74867e960646b4c166ab42047db4f9a1c4 ppport.h
-SHA1 2a0a12208a8b081a1a588028c980c5472779453e t/0-META-read.t
-SHA1 37abd43b41068804ea4bb099fdd89af21be82926 t/0-Test-DistManifest.t
-SHA1 8f93fb4c8f0424a4442cc93c9a2e86342ef55281 t/0-Test-Pod.t
-SHA1 1de8f07883f6bf1a2ef79f2cb8adf1deb3f61cee t/0-Test-Synopsis.t
-SHA1 fb517c2fae5ddac559318bf6a224949115ea3129 t/0-Test-YAML-Meta.t
-SHA1 f3bc1eb4ccf4844e7d352ca88452d854c3e6b437 t/MyTestHelpers.pm
-SHA1 c59284ca96447c51bc8e4d476b07b597bce393f5 t/MyWithoutGNU.pm
+SHA1 5e5680b471811244fe93571efc23e7b6089cac3b t/MyTestHelpers.pm
+SHA1 f556b86971f7fc59e982d912180ee3f6d2a1e050 t/MyWithoutGNU.pm
 SHA1 e2ded1c3360e63f217fb205277f76c331db29d14 t/import-all.t
-SHA1 d347654482464496c1add43c1029eb9b7b97fe16 t/import.t
-SHA1 e7ae57f26c5b7dca463b499c9af17340a5646c7e t/malloc-info-string.t
-SHA1 d4e05d9829d9305b10ce5653a6933b72846a2724 t/malloc-info.t
-SHA1 3d71df60b5ff5039ce2bb763e56ba9324e3b8926 t/malloc-stats.t
-SHA1 14e76dfa0c2de831244249af597cc67398e3da9c t/malloc-trim.t
-SHA1 6c95c7ef5cf43d5eda6f2a153335874cf45fc751 t/noimport.t
+SHA1 fcc5c350dbd1bbe5c13435b5da06689f8ac295c3 t/import.t
+SHA1 aa2c26af83eabcecd6bf9f2115743648aa4bc1d1 t/malloc-info-string.t
+SHA1 fbc23060afa60a352ec33e2197c93c77140637be t/malloc-info.t
+SHA1 f8d6fdc6d6a02a63a9e9769b03e3ecb46a6ab9a1 t/malloc-stats.t
+SHA1 b531e545d36238654ba93167c799534edc171451 t/malloc-trim.t
+SHA1 e2116b0f1f9f190f1c505d07415ac8fbe702c053 t/noimport.t
 SHA1 2813a94caf093a105db08b2e6c7db3daf3dd6308 t/test-weaken.t
+SHA1 9127f78a0dfa04976acbb979dd7862ef59a74c58 xt/0-META-read.t
+SHA1 37abd43b41068804ea4bb099fdd89af21be82926 xt/0-Test-DistManifest.t
+SHA1 8f93fb4c8f0424a4442cc93c9a2e86342ef55281 xt/0-Test-Pod.t
+SHA1 1de8f07883f6bf1a2ef79f2cb8adf1deb3f61cee xt/0-Test-Synopsis.t
+SHA1 fb517c2fae5ddac559318bf6a224949115ea3129 xt/0-Test-YAML-Meta.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iD8DBQFMSLqCLFMCIV9q3ToRAhtyAKC22mJ13S5g+Dvd9Yo+9UmG1BeyiwCfVzdM
-JXjq3sCHbhjLSaib19qLjp0=
-=u0Oz
+iD8DBQFMpk26LFMCIV9q3ToRAqMdAKCS/VwylsvmTQaVbRMVy3kFQG+3vwCdGbxO
+BoZI0zFzH9VE8PM6U0jOUBI=
+=zQxn
 -----END PGP SIGNATURE-----

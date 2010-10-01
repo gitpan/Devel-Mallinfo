@@ -19,7 +19,7 @@
 
 use strict;
 use warnings;
-use Test::More tests => 2;
+use Test::More;
 
 use lib 't';
 use MyTestHelpers;
@@ -27,27 +27,27 @@ BEGIN { MyTestHelpers::nowarnings(); }
 
 require Devel::Mallinfo;
 
+defined(&Devel::Mallinfo::malloc_trim)
+  or plan skip_all => 'malloc_trim() not available';
+
+plan tests => 2;
+
 #-----------------------------------------------------------------------------
 # malloc_trim() basic run
 
-SKIP: {
-  defined &Devel::Mallinfo::malloc_trim
-    or skip 'malloc_trim() not available', 2;
-
-  {
-    my $before = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
-    my $ret = Devel::Mallinfo::malloc_trim(0);
-    my $after = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
-    ok (1, 'malloc_trim() ran successfully');
-    diag "trim return $ret, keepcost before $before after $after";
-  }
-  {
-    my $before = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
-    my $ret = Devel::Mallinfo::malloc_trim(0);
-    my $after = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
-    ok (1, 'malloc_trim() ran successfully again');
-    diag "trim return $ret, keepcost before $before after $after";
-  }
+{
+  my $before = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
+  my $ret = Devel::Mallinfo::malloc_trim(0);
+  my $after = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
+  ok (1, 'malloc_trim() ran successfully');
+  diag "trim return $ret, keepcost before $before after $after";
+}
+{
+  my $before = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
+  my $ret = Devel::Mallinfo::malloc_trim(0);
+  my $after = Devel::Mallinfo::mallinfo()->{'keepcost'}||0;
+  ok (1, 'malloc_trim() ran successfully again');
+  diag "trim return $ret, keepcost before $before after $after";
 }
 
 exit 0;

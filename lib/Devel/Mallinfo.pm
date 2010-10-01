@@ -25,7 +25,7 @@ use Exporter;
 use DynaLoader;
 @ISA = ('Exporter', 'DynaLoader');
 
-$VERSION = 9;
+$VERSION = 10;
 
 @EXPORT_OK = ('mallinfo');
 %EXPORT_TAGS = (all => \@EXPORT_OK);

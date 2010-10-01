@@ -26,7 +26,7 @@ use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings(); }
 
-my $want_version = 9;
+my $want_version = 10;
 cmp_ok ($Devel::Mallinfo::VERSION,'==',$want_version, 'VERSION variable');
 cmp_ok (Devel::Mallinfo->VERSION, '==',$want_version, 'VERSION class method');
 { ok (eval { Devel::Mallinfo->VERSION($want_version); 1 },

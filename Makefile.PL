@@ -61,8 +61,8 @@ MyMakeMakerExtras::WriteMakefile
         optional_features
         => { maximum_tests
              => { description => 'Have "make test" do as much as possible.',
-                  requires => { 'Scalar::Util'     => 0,
-                                'Test::Weaken'     => 0,
+                  requires => { 'Scalar::Util' => 0,
+                                'Test::Weaken' => 0,
                               },
                 },
            },

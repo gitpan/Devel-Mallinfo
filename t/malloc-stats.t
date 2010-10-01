@@ -19,20 +19,21 @@
 
 use strict;
 use warnings;
-use Test::More tests => 1;
+use Test::More;
 
 use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings(); }
 
 require Devel::Mallinfo;
-SKIP: {
-  defined &Devel::Mallinfo::malloc_stats
-    or skip 'malloc_stats() not available', 1;
 
-  Devel::Mallinfo::malloc_stats();
-  Devel::Mallinfo::malloc_stats();
-  ok (1, 'malloc_stats() ran successfully');
-}
+defined(&Devel::Mallinfo::malloc_stats)
+  or plan skip_all => 'malloc_stats() not available';
+
+plan tests => 1;
+
+Devel::Mallinfo::malloc_stats();
+Devel::Mallinfo::malloc_stats();
+ok (1, 'malloc_stats() ran successfully');
 
 exit 0;

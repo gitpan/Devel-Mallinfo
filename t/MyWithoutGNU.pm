@@ -24,4 +24,6 @@ undef &Devel::Mallinfo::malloc_info;
 undef &Devel::Mallinfo::malloc_info_string;
 undef &Devel::Mallinfo::malloc_stats;
 undef &Devel::Mallinfo::malloc_trim;
+
 1;
+__END__
