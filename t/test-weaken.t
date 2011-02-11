@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2010 Kevin Ryde
+# Copyright 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -17,22 +17,22 @@
 # You should have received a copy of the GNU General Public License along
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
-use 5.006;
 use strict;
-use warnings;
-use Test::More;
-
-my $have_test_weaken = eval "use Test::Weaken 3.002; 1";
-if (! $have_test_weaken) {
-  plan skip_all => "due to Test::Weaken 3.002 not available -- $@";
+use Test;
+BEGIN {
+  plan tests => 4;
 }
-plan tests => 2;
 
 use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings(); }
 
-diag ("Test::Weaken version ", Test::Weaken->VERSION);
+my $have_test_weaken = eval "use Test::Weaken 3.002; 1";
+if (! $have_test_weaken) {
+  MyTestHelpers::diag ("Test::Weaken 3.002 not available -- $@");
+}
+
+MyTestHelpers::diag ("Test::Weaken version ", Test::Weaken->VERSION);
 
 
 #-----------------------------------------------------------------------------
@@ -40,33 +40,56 @@ diag ("Test::Weaken version ", Test::Weaken->VERSION);
 
 require Devel::Mallinfo;
 {
-  my $leaks = Test::Weaken::leaks
+  my $leaks = $have_test_weaken && Test::Weaken::leaks
     ({ constructor => sub {
-         return \(Devel::Mallinfo::mallinfo());
+         return \(scalar(Devel::Mallinfo::mallinfo()));
        },
      });
-  is ($leaks, undef, 'mallinfo() deep garbage collection');
-  if ($leaks && defined &explain) {
-    diag "Test-Weaken ", explain $leaks;
-  }
+  ok (! defined $leaks,
+      1,
+      'mallinfo() in scalar context');
+}
+{
+  my $leaks = $have_test_weaken && Test::Weaken::leaks
+    ({ constructor => sub {
+         return [ map {\$_} Devel::Mallinfo::mallinfo() ];
+       },
+     });
+  ok (! defined $leaks,
+      1,
+      'mallinfo() in list context');
 }
 
 #-----------------------------------------------------------------------------
 # malloc_info_string(), checking mortalize on the newsv
+  
+my $have_malloc_info_string = defined &Devel::Mallinfo::malloc_info_string;
+if (! $have_malloc_info_string) {
+  MyTestHelpers::diag ('malloc_info_string() not available');
+}
 
-SKIP: {
-  defined &Devel::Mallinfo::malloc_info_string
-    or skip 'malloc_info_string() not available', 1;
-
-  my $leaks = Test::Weaken::leaks
+{
+  my $leaks = $have_test_weaken && $have_malloc_info_string
+    && Test::Weaken::leaks
     ({ constructor => sub {
-         return \(Devel::Mallinfo::malloc_info_string(0));
+         return \(scalar(Devel::Mallinfo::malloc_info_string(0)));
        },
      });
-  is ($leaks, undef, 'malloc_info_string() deep garbage collection');
-  if ($leaks && defined &explain) {
-    diag "Test-Weaken ", explain $leaks;
-  }
+  ok (! $leaks,
+      1,
+      'malloc_info_string() in scalar context');
+}
+
+{
+  my $leaks = $have_test_weaken && $have_malloc_info_string
+    && Test::Weaken::leaks
+    ({ constructor => sub {
+         return [ map {\$_} Devel::Mallinfo::malloc_info_string(0) ];
+       },
+     });
+  ok (! $leaks,
+      1,
+      'malloc_info_string() in list context');
 }
 
 exit 0;

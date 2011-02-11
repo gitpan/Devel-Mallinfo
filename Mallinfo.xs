@@ -1,4 +1,4 @@
-/* Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+/* Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
    This file is part of Devel-Mallinfo.
 
@@ -88,10 +88,13 @@ OUTPUT:
 #if HAVE_MALLOC_INFO
 
 int
-malloc_info (int options, FILE *fp)
+malloc_info (options, fp)
+    int options
+    FILE *fp
 
 void
-malloc_info_string (int options)
+malloc_info_string (options)
+    int options
 PPCODE:
   {
     FILE *fp;
@@ -132,6 +135,7 @@ malloc_stats ()
 #if HAVE_MALLOC_TRIM
 
 int
-malloc_trim (size_t leave)
+malloc_trim (leave)
+    size_t leave
 
 #endif

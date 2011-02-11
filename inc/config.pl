@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 
@@ -41,7 +41,6 @@
 #
 
 use strict;
-use warnings;
 use POSIX;
 
 # Ensure output goes immediately so messages are in the right place relative
@@ -172,7 +171,9 @@ if ($have_mallinfo) {
   print "inc/config.pl: extracting fields from struct mallinfo\n";
   # using conftest.c program above and the .c.i rule from MakeMaker
   if (! make ('conftest.i')) {
-    die "Oops, can't make conftest.i";
+    if (! make ('conftest-fallback-i')) {
+      die "Oops, can't make conftest.i";
+    }
   }
   my $preproc = read_file ('conftest.i');
 

@@ -1,4 +1,4 @@
-/* Copyright 2007, 2009 Kevin Ryde
+/* Copyright 2007, 2009, 2011 Kevin Ryde
 
    This file is part of Devel-Mallinfo.
 
@@ -22,6 +22,6 @@
 int
 main (void)
 {
-  printf ("%d\n", mallopt (M_TRIM_THRESHOLD, 1024));
+  printf ("M_TRIM_THRESHOLD %d\n", mallopt (M_TRIM_THRESHOLD, 1024));
   return 0;
 }

@@ -1,4 +1,4 @@
-# Copyright 2010 Kevin Ryde
+# Copyright 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -17,13 +17,12 @@
 
 package MyWithoutGNU;
 use strict;
-use warnings;
 use Devel::Mallinfo;
 
-undef &Devel::Mallinfo::malloc_info;
-undef &Devel::Mallinfo::malloc_info_string;
-undef &Devel::Mallinfo::malloc_stats;
-undef &Devel::Mallinfo::malloc_trim;
+undef *Devel::Mallinfo::malloc_info;
+undef *Devel::Mallinfo::malloc_info_string;
+undef *Devel::Mallinfo::malloc_stats;
+undef *Devel::Mallinfo::malloc_trim;
 
 1;
 __END__

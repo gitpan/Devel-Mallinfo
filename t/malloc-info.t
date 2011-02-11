@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2010 Kevin Ryde
+# Copyright 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -18,8 +18,10 @@
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
-use warnings;
-use Test::More;
+use Test;
+BEGIN {
+  plan tests => 1;
+}
 
 use lib 't';
 use MyTestHelpers;
@@ -27,16 +29,19 @@ BEGIN { MyTestHelpers::nowarnings(); }
 
 require Devel::Mallinfo;
 
-defined(&Devel::Mallinfo::malloc_info)
-  or plan skip_all => 'malloc_info() not available';
+my $have_malloc_info = defined(&Devel::Mallinfo::malloc_info);
+if (! $have_malloc_info) {
+  MyTestHelpers::diag ('malloc_info() not available');
+}
 
-plan tests => 1;
 
 #-----------------------------------------------------------------------------
 # malloc_info() basic run
 
-Devel::Mallinfo::malloc_info(0,\*STDERR);
-ok (1, 'malloc_info() ran successfully');
+if ($have_malloc_info) {
+  Devel::Mallinfo::malloc_info(0,\*STDERR);
+}
+ok (1, 1, 'malloc_info() ran successfully');
 
 
 exit 0;

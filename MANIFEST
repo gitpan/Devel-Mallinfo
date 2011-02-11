@@ -32,6 +32,7 @@ README
 SIGNATURE
 t/import-all.t
 t/import.t
+t/load.t
 t/malloc-info-string.t
 t/malloc-info.t
 t/malloc-stats.t

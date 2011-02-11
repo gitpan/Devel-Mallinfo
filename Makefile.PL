@@ -1,6 +1,6 @@
 #!/usr/bin/perl
 
-# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -18,7 +18,6 @@
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
-use warnings;
 use ExtUtils::MakeMaker;
 use lib 'inc';
 use MyMakeMakerExtras;
@@ -34,15 +33,17 @@ MyMakeMakerExtras::WriteMakefile
    VERSION_FROM => 'lib/Devel/Mallinfo.pm',
    PREREQ_PM    => {
                     'vars' => 0,
-                    'warnings' => 0,
 
                     # for testing
-                    'Test::More' => 0,
+                    'Test' => 0,
                     'lib' => 0,
                    },
    AUTHOR       => 'Kevin Ryde <user42@zip.com.au>',
    LICENSE      => 'gpl',
    SIGN         => 1,
+   # probably anything
+   MIN_PERL_VERSION => '5',
+
    clean => { FILES =>
               "config.h"
               . " conftest.c conftest.i"
@@ -53,20 +54,19 @@ MyMakeMakerExtras::WriteMakefile
    # build Devel::Mallinfo at least ...
    PERL_MALLOC_OK => 1,
 
-   META_MERGE
-   => { resources
-        => { homepage
-             => 'http://user42.tuxfamily.org/devel-mallinfo/index.html',
-           },
-        optional_features
-        => { maximum_tests
-             => { description => 'Have "make test" do as much as possible.',
-                  requires => { 'Scalar::Util' => 0,
-                                'Test::Weaken' => 0,
-                              },
-                },
-           },
-      },
+   META_MERGE =>
+   { resources =>
+     { homepage => 'http://user42.tuxfamily.org/devel-mallinfo/index.html',
+     },
+     optional_features =>
+     { maximum_tests =>
+       { description => 'Have "make test" do as much as possible.',
+         requires => { 'Scalar::Util' => 0,
+                       'Test::Weaken' => 0,
+                     },
+       },
+     },
+   },
    MyMakeMakerExtras_Pod_Coverage => [ 'Devel::Mallinfo' ],
   );
 
@@ -89,11 +89,14 @@ config.h: inc/config.pl Makefile
 # with microsoft cl.
 #
 # PERL_ARCHIVE is meant for a dynamic extension, which is what Mallinfo.xs
-# will be, but not sure if it's correct in a plain .exe link. 
+# will be, but not sure if it's correct in a plain .exe link.
 #
 conftest-link: conftest$(OBJ_EXT)
 	$(LD) $(LDFLAGS) conftest$(OBJ_EXT) $(OTHERLDFLAGS) \
 	  $(PERL_ARCHIVE) $(LDLOADLIBS) $(PERL_ARCHIVE_AFTER)
+
+conftest-fallback-i:
+	$(CCCMD) -E $(CCCDLFLAGS) -I$(PERL_INC) $(DEFINE) conftest.c >conftest.i
 
 HERE
 }

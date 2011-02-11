@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2010 Kevin Ryde
+# Copyright 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -18,8 +18,10 @@
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
-use warnings;
-use Test::More;
+use Test;
+BEGIN {
+  plan tests => 4;
+}
 
 use lib 't';
 use MyTestHelpers;
@@ -27,10 +29,13 @@ BEGIN { MyTestHelpers::nowarnings(); }
 
 require Devel::Mallinfo;
 
-defined(&Devel::Mallinfo::malloc_info_string)
-  or plan skip_all => 'malloc_info_string() not available';
-
-plan tests => 4;
+my $have_malloc_info_string = Devel::Mallinfo->can('malloc_info_string');
+if (! $have_malloc_info_string) {
+  MyTestHelpers::diag ('malloc_info_string() not available');
+}
+my $skip_malloc_info_string = ($have_malloc_info_string
+                               ? undef
+                               : 'due to malloc_info_string() not available');
 
 
 #-----------------------------------------------------------------------------
@@ -40,36 +45,41 @@ plan tests => 4;
   # successful return depends on disk space available on /tmp, but think
   # it's ok to expect that when testing
   #
-  my $str = Devel::Mallinfo::malloc_info_string(0);
-  ok (defined $str, 'malloc_info_string() ran');
+  my $str = $have_malloc_info_string && Devel::Mallinfo::malloc_info_string(0);
+  skip ($skip_malloc_info_string,
+        defined $str,
+        1,
+        'malloc_info_string() ran');
 }
 
 #-----------------------------------------------------------------------------
 # weaken of return value
 
-my $have_scalar_util = eval { require Scalar::Util; 1 };
-if (! $have_scalar_util) {
-  diag "Scalar::Util not available: $@";
-}
-
-my $have_weaken;
-if ($have_scalar_util) {
-  $have_weaken = do {
-    my $ref = [];
-    eval { Scalar::Util::weaken ($ref); 1 }
-  };
-  if (! $have_weaken) {
-    diag "weaken() not available: $@";
+{
+  my $have_scalar_util = eval { require Scalar::Util; 1 };
+  if (! $have_scalar_util) {
+    MyTestHelpers::diag ("Scalar::Util not available: ", $@);
   }
-}
 
-SKIP: {
-  $have_weaken
-    or skip 'weaken() not available', 1;
+  my $have_weaken;
+  if ($have_scalar_util) {
+    $have_weaken = do {
+      my $ref = [];
+      eval { Scalar::Util::weaken ($ref); 1 }
+    };
+    if (! $have_weaken) {
+      MyTestHelpers::diag ("weaken() not available: ", $@);
+    }
+  }
 
-  my $ref = \(Devel::Mallinfo::malloc_info_string(0));
-  Scalar::Util::weaken ($ref);
-  is ($ref, undef, 'malloc_info_string() destroyed by weaken');
+  my $ref;
+  if ($have_malloc_info_string && $have_weaken) {
+    $ref = \(Devel::Mallinfo::malloc_info_string(0));
+    Scalar::Util::weaken ($ref);
+  }
+  ok (! defined $ref,
+      1,
+      'malloc_info_string() destroyed by weaken');
 }
 
 #-----------------------------------------------------------------------------
@@ -77,14 +87,16 @@ SKIP: {
 
 my $have_bsd_resource = eval { require BSD::Resource; 1 };
 if (! $have_bsd_resource) {
-  diag "BSD::Resource not available -- $@";
+  MyTestHelpers::diag ("BSD::Resource not available -- ", $@);
 }
 
 my $have_rlimit_nofile;
 if ($have_bsd_resource) {
   my $limits = BSD::Resource::get_rlimits();
   $have_rlimit_nofile = defined $limits->{'RLIMIT_NOFILE'};
-  if (! $have_rlimit_nofile) { diag "RLIMIT_NOFILE not available"; }
+  if (! $have_rlimit_nofile) {
+    MyTestHelpers::diag ("RLIMIT_NOFILE not available");
+  }
 }
 
 # don't think would have RLIMIT_NOFILE but then getrlimit() throwing "not
@@ -95,7 +107,9 @@ if ($have_rlimit_nofile) {
     BSD::Resource::getrlimit (BSD::Resource::RLIMIT_NOFILE());
     1;
   };
-  if (! $have_getrlimit) { diag "getrlimit() not available -- $@"; }
+  if (! $have_getrlimit) {
+    MyTestHelpers::diag ("getrlimit() not available -- ", $@);
+  }
 }
 
 # even less likely to have getrlimit() but not then setrlimit(), but check
@@ -107,26 +121,42 @@ if ($have_getrlimit) {
     BSD::Resource::setrlimit (BSD::Resource::RLIMIT_NOFILE(), $soft, $hard);
     1;
   };
-  if (! $have_setrlimit) { diag "setrlimit() not available -- $@"; }
+  if (! $have_setrlimit) {
+    MyTestHelpers::diag ("setrlimit() not available -- ",$@);
+  }
 }
 
-SKIP: {
-  $have_setrlimit
-    or skip 'setrlimit(RLIMIT_NOFILE) not available', 2;
+# with RLIMIT_NOFILE making tempfile() fail
+{
+  my $str;
+  my $err = 0;
+  my $skip = (! $have_setrlimit
+              ? 'due to setrlimit() not available'
+              : ! $have_malloc_info_string
+              ? 'due to malloc_info_string() not available'
+              : undef);
 
-  my ($soft, $hard) = BSD::Resource::getrlimit(BSD::Resource::RLIMIT_NOFILE());
-  diag "RLIMIT_NOFILE soft $soft hard $hard";
+  if ($have_malloc_info_string && $have_setrlimit) {
+    my ($soft, $hard) = BSD::Resource::getrlimit(BSD::Resource::RLIMIT_NOFILE());
+    MyTestHelpers::diag ("RLIMIT_NOFILE soft $soft hard $hard");
 
-  BSD::Resource::setrlimit (BSD::Resource::RLIMIT_NOFILE(), 0, $hard);
-  my $str = Devel::Mallinfo::malloc_info_string(0);
-  my $err = $!;
-  BSD::Resource::setrlimit (BSD::Resource::RLIMIT_NOFILE(), $soft, $hard);
+    BSD::Resource::setrlimit (BSD::Resource::RLIMIT_NOFILE(), 0, $hard);
+    $str = Devel::Mallinfo::malloc_info_string(0);
+    $err = $!;
+    BSD::Resource::setrlimit (BSD::Resource::RLIMIT_NOFILE(), $soft, $hard);
+  }
 
   require POSIX;
-  is ($str, undef,
-      'malloc_info_string() undef under NOFILE');
-  is ($err+0, POSIX::EMFILE(),
-      'malloc_info_string() errno EMFILE under NOFILE');
+  my $emfile = eval { POSIX::EMFILE() } || 0; # in case no such errno
+
+  skip ($skip,
+        ! defined $str,
+        1,
+        'malloc_info_string() undef under NOFILE');
+  skip ($skip,
+        $err+0,
+        $emfile,
+        'malloc_info_string() errno EMFILE under NOFILE');
 }
 
 exit 0;

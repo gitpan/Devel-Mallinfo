@@ -1,4 +1,4 @@
-Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 This file is part of Devel-Mallinfo.
 
@@ -15,6 +15,9 @@ General Public License for more details.
 You should have received a copy of the GNU General Public License along
 with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
+
+Version 11, February 2011
+    - fixes for perl 5.6 and earlier
 
 Version 10, September 2010
     - test manifest only as an author test

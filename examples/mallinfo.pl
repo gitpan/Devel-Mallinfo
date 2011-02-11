@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -31,7 +31,6 @@
 
 use 5.004;
 use strict;
-use warnings;
 use Devel::Mallinfo;
 
 my $h = Devel::Mallinfo::mallinfo();

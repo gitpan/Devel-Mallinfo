@@ -1,4 +1,4 @@
-# Copyright 2007, 2009, 2010 Kevin Ryde
+# Copyright 2007, 2009, 2010, 2011 Kevin Ryde
 # 
 # This file is part of Devel-Mallinfo.
 # 
@@ -23,7 +23,7 @@
 Source: libdevel-mallinfo-perl
 Section: perl
 Priority: optional
-Build-Depends: libtest-more-perl | perl (>= 5.6.2), cdbs, debhelper (>= 5)
+Build-Depends: liblib-perl | perl (>= 5.001), libtest-perl | perl (>= 5.005), cdbs, debhelper (>= 5)
 Maintainer: Kevin Ryde <user42@zip.com.au>
 Standards-Version: 3.9.1
 Homepage: http://user42.tuxfamily.org/devel-mallinfo/index.html
@@ -31,7 +31,7 @@ Bugs: mailto:user42@zip.com.au
 
 Package: libdevel-mallinfo-perl
 Architecture: any
-Depends: perl, libvars-perl | perl (>= 5.002), libwarnings-perl | perl (>= 5.6), ${perl:Depends}, ${misc:Depends}, ${shlibs:Depends}
+Depends: perl, libvars-perl | perl (>= 5.002), ${perl:Depends}, ${misc:Depends}, ${shlibs:Depends}
 Description: mallinfo() memory statistics in Perl, and more
  This is a Perl interface to the C library mallinfo() statistics on
  malloc usage.  It's meant for development use, to see how much is

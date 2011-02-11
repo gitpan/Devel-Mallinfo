@@ -1,4 +1,4 @@
-# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -17,7 +17,6 @@
 
 package Devel::Mallinfo;
 use strict;
-use warnings;
 use Exporter;
 use vars qw($VERSION @ISA @EXPORT_OK %EXPORT_TAGS);
 
@@ -25,7 +24,7 @@ use Exporter;
 use DynaLoader;
 @ISA = ('Exporter', 'DynaLoader');
 
-$VERSION = 10;
+$VERSION = 11;
 
 @EXPORT_OK = ('mallinfo');
 %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -39,8 +38,7 @@ if (defined &malloc_trim)         { push @EXPORT_OK, 'malloc_trim'; }
 1;
 __END__
 
-=for stopwords malloc bss runtime mmapped unbuffered PerlIO UTF8 errno Glibc
-libc builtin Devel-Mallinfo Ryde
+=for stopwords malloc bss runtime mmapped unbuffered PerlIO UTF8 errno Glibc libc builtin Devel-Mallinfo Ryde sbrk kbytes eg
 
 =head1 NAME
 
@@ -60,12 +58,12 @@ C<Devel::Mallinfo> is an interface to the C library C<mallinfo> function
 giving various totals for memory used by C<malloc>.  It's meant for
 development use, to give you an idea how much memory your program and
 libraries are using.  Interfaces to some GNU C Library specific malloc
-information is provided too, when available.
+information are provided too, when available.
 
 C<malloc> isn't the only way memory may be used.  Program and library data
 and bss segments and the occasional direct C<mmap> don't show up in
-C<mallinfo>.  However normally almost all runtime space goes through
-C<malloc> so it's close to the total, and dynamic usage is often what you're
+C<mallinfo>.  But normally almost all runtime space goes through C<malloc>
+so it's close to the total, and dynamic usage is often what you're
 interested in anyway.
 
 =head1 EXPORTS
@@ -114,16 +112,27 @@ C<mallinfo()> returns a reference to an empty hash.
 
 See the C<mallinfo> man page or the GNU C Library Reference Manual section
 "Statistics for Memory Allocation with `malloc'" for details of what the
-fields mean.
+fields mean.  On a modern system,
 
-On a modern system C<arena> plus C<hblkhd> is the total bytes taken from the
-system.  C<hblkhd> is mmapped big blocks currently in use.  C<arena> space
-is from C<sbrk()> and within that C<uordblks> plus C<usmblks> is currently
-in use, and C<fordblks> plus C<fsmblks> is free.
+    arena             bytes taken from sbrk()
+    hblkhd            bytes taken from mmap()
 
-C<hblkhd> space is immediately returned to the system when freed.  C<arena>
-space is shrunk when there's enough free at the top to be worth doing.
-C<keepcost> is the current free bytes at the end which could be given back.
+    within the arena amount:
+      uordblks        bytes in use, ordinary blocks
+      usmblks         bytes in use, small blocks
+      fordblks        free bytes, ordinary blocks
+      fsmblks         free bytes, small blocks
+      keepcost        part of fordblks or fsmblks at top
+
+    totals:
+      arena+hblkhd             total taken from the system
+      uordblks+usmblks+hblkhd  total in use by program
+      fordblks+fsmblks         total free in program
+
+C<hblkhd> mmapped space is immediately returned to the system when freed.
+C<arena> sbrk space is only shrunk when there's enough free at the top to be
+worth doing.  C<keepcost> is the bytes there now.  (Usually C<mallopt>
+C<M_TRIM_THRESHOLD> is when to shrink, eg. 128 kbytes.)
 
 =head1 EXTRA FUNCTIONS
 
@@ -183,13 +192,14 @@ else has allocated memory with C<sbrk> and it won't touch that.
 =head1 OTHER NOTES
 
 On a 64-bit system with a 32-bit C C<int> type, the C<int> fields in
-C<struct mallinfo> may overflow and either wrap around to small or negative
-values, or maybe cap at C<INT_MAX>.  This is a known C library problem and
+C<struct mallinfo> may overflow and wrap around to small or negative values,
+or maybe cap at C<INT_MAX>.  This is a known C library problem and
 C<Devel::Mallinfo> doesn't try to do anything about it.
 
 The C<mallopt> function would be a logical companion to C<mallinfo>, but
 generally it must be called before the first ever C<malloc>, so anything at
-the Perl level is much too late.
+the Perl level is much too late.  Similarly C<mcheck> must be before the
+first ever C<malloc>.
 
 =head1 SEE ALSO
 
@@ -205,7 +215,7 @@ http://user42.tuxfamily.org/devel-mallinfo/index.html
 
 =head1 LICENSE
 
-Devel-Mallinfo is Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+Devel-Mallinfo is Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 Devel-Mallinfo is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free

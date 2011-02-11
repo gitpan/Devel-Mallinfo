@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 
@@ -18,15 +18,19 @@
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
-use warnings;
 use Devel::Mallinfo ':all';
-use Test::More tests => 5;
+use Test;
+BEGIN {
+  plan tests => 5;
+}
 
 use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings(); }
 
-ok (defined &mallinfo, 'mallinfo() imported');
+ok (defined &mallinfo,
+    1,
+    'mallinfo() imported');
 
 foreach ('malloc_stats',
          'malloc_info',
@@ -34,10 +38,14 @@ foreach ('malloc_stats',
          'malloc_trim') {
   my $name = $_;
   my $fullname = "Devel::Mallinfo::$name";
-  if (exists &$fullname) {
-    ok (exists &$name, "$name() imported");
+  if (defined &$fullname) {
+    ok (defined &$name,
+        1,
+        "$name() imported");
   } else {
-    ok (! exists &$name, "$name() not imported as doesn't exist");
+    ok (! defined &$name,
+        1,
+        "$name() not imported as doesn't exist");
   }
 }
 

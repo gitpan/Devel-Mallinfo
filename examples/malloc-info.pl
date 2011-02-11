@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2009, 2010 Kevin Ryde
+# Copyright 2009, 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -23,7 +23,6 @@
 # off a utf8 flag there too.
 
 use strict;
-use warnings;
 use Devel::Mallinfo;
 
 print "malloc_info() from the GNU C Library:\n";

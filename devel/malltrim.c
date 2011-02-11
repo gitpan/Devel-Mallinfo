@@ -1,4 +1,4 @@
-/* Copyright 2010 Kevin Ryde
+/* Copyright 2010, 2011 Kevin Ryde
 
    This file is part of Devel-Mallinfo.
 
@@ -23,19 +23,36 @@
 #include <malloc.h>
 #include <unistd.h>
 
+#define PCOUNT  50000
 
 int
 main (void)
 {
   int ret;
   struct mallinfo m;
+  static char *p[PCOUNT];
+  int i;
 
-  malloc (123);
+  mallopt (M_TRIM_THRESHOLD, 1000000);
+  mallopt (M_TOP_PAD, 1);
+  mallopt (M_MMAP_THRESHOLD, 10000000);
 
-  free (malloc (4000));
+  /* malloc (1); */
+  /* m = mallinfo(); */
+  /* printf ("malloc:  arena %d  keepcost %d  fordblks %d  uord=%d,usm=%d  hblkhd %d\n", */
+  /*         m.arena, m.keepcost, m.fordblks, m.uordblks, m.usmblks, m.hblkhd); */
 
+  for (i = 0; i < PCOUNT; i++)
+    p[i] = malloc (256);
   m = mallinfo();
-  printf ("keepcost %d\n", m.keepcost);
+  printf ("malloc:  arena %d  keepcost %d  fordblks %d  uord=%d,usm=%d  hblkhd %d\n",
+          m.arena, m.keepcost, m.fordblks, m.uordblks, m.usmblks, m.hblkhd);
+
+  for (i = PCOUNT-1; i >= 0; i--)
+    free(p[i]);
+  m = mallinfo();
+  printf ("malloc:  arena %d  keepcost %d  fordblks %d  uord=%d,usm=%d  hblkhd %d\n",
+          m.arena, m.keepcost, m.fordblks, m.uordblks, m.usmblks, m.hblkhd);
 
   ret = malloc_trim(0);
   printf ("ret %d\n", ret);

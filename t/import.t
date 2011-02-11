@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2007, 2008, 2009, 2010 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 
@@ -18,30 +18,41 @@
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
 use strict;
-use warnings;
 use Devel::Mallinfo ('mallinfo');
-use Test::More tests => 6;
+use Test;
+BEGIN {
+  plan tests => 6;
+}
 
 use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings(); }
 
-my $want_version = 10;
-cmp_ok ($Devel::Mallinfo::VERSION,'==',$want_version, 'VERSION variable');
-cmp_ok (Devel::Mallinfo->VERSION, '==',$want_version, 'VERSION class method');
-{ ok (eval { Devel::Mallinfo->VERSION($want_version); 1 },
+my $want_version = 11;
+ok ($Devel::Mallinfo::VERSION,
+    $want_version,
+    'VERSION variable');
+ok (Devel::Mallinfo->VERSION,
+    $want_version,
+    'VERSION class method');
+{
+  ok (eval { Devel::Mallinfo->VERSION($want_version); 1 },
+      1,
       "VERSION class check $want_version");
   my $check_version = $want_version + 1000;
   ok (! eval { Devel::Mallinfo->VERSION($check_version); 1 },
+      1,
       "VERSION class check $check_version");
 }
 
 ok (defined &mallinfo,
+    1,
     'mallinfo() defined in local module');
 
 # get back a hash, though what it contains is system-dependent
 my $h = mallinfo();
-is (ref($h), 'HASH',
+ok (ref($h),
+    'HASH',
     'mallinfo() returns hash');
 
 exit 0;
