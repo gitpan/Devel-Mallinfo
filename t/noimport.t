@@ -28,7 +28,7 @@ use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings(); }
 
-my $want_version = 11;
+my $want_version = 12;
 ok ($Devel::Mallinfo::VERSION,
     $want_version,
     'VERSION variable');

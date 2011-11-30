@@ -41,7 +41,7 @@ MyMakeMakerExtras::WriteMakefile
    AUTHOR       => 'Kevin Ryde <user42@zip.com.au>',
    LICENSE      => 'gpl',
    SIGN         => 1,
-   # probably anything
+   # probably anything, dunno if can get a Test.pm going far enough back
    MIN_PERL_VERSION => '5',
 
    clean => { FILES =>

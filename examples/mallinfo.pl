@@ -29,13 +29,13 @@
 # The printf has a hard-coded 10 chars for the names and 7 for the values,
 # but you could find the widest of each at runtime if you wanted.
 
-use 5.004;
 use strict;
 use Devel::Mallinfo;
 
 my $h = Devel::Mallinfo::mallinfo();
 print "mallinfo:\n";
-foreach my $field (sort keys %$h) {
+my $field;
+foreach $field (sort keys %$h) {
   printf "  %-10s  %7d\n", $field, $h->{$field};
 }
 

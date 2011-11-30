@@ -78,6 +78,7 @@ if (! $have_malloc_info_string) {
   ok (! $leaks,
       1,
       'malloc_info_string() in scalar context');
+  MyTestHelpers::test_weaken_show_leaks($leaks);
 }
 
 {
@@ -90,6 +91,7 @@ if (! $have_malloc_info_string) {
   ok (! $leaks,
       1,
       'malloc_info_string() in list context');
+  MyTestHelpers::test_weaken_show_leaks($leaks);
 }
 
 exit 0;

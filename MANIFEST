@@ -15,6 +15,8 @@ devel/mallstats.c
 devel/malltrim.c
 devel/mstat.pl
 devel/run.pl
+devel/taint.pl
+devel/weaken.pl
 examples/mallinfo.pl
 examples/malloc-info-string.pl
 examples/malloc-info.pl
@@ -33,6 +35,7 @@ SIGNATURE
 t/import-all.t
 t/import.t
 t/load.t
+t/malloc-info-string-taint.t
 t/malloc-info-string.t
 t/malloc-info.t
 t/malloc-stats.t
@@ -41,7 +44,11 @@ t/MyTestHelpers.pm
 t/MyWithoutGNU.pm
 t/noimport.t
 t/test-weaken.t
+xt/0-examples-xrefs.t
+xt/0-file-is-part-of.t
 xt/0-META-read.t
+xt/0-no-debug-left-on.t
+xt/0-Test-ConsistentVersion.t
 xt/0-Test-DistManifest.t
 xt/0-Test-Pod.t
 xt/0-Test-Synopsis.t
