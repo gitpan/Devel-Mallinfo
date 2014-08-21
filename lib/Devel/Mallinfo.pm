@@ -1,4 +1,4 @@
-# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011, 2014 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -24,7 +24,7 @@ use Exporter;
 use DynaLoader;
 @ISA = ('Exporter', 'DynaLoader');
 
-$VERSION = 12;
+$VERSION = 13;
 
 @EXPORT_OK = ('mallinfo');
 %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -219,13 +219,15 @@ L<mallinfo(3)>, GNU C Library Manual "Statistics for Memory Allocation with
 L<Devel::Peek/Memory footprint debugging>, for statistics if using Perl's
 builtin C<malloc()>
 
+L<Memory::Usage>
+
 =head1 HOME PAGE
 
 http://user42.tuxfamily.org/devel-mallinfo/index.html
 
 =head1 LICENSE
 
-Devel-Mallinfo is Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
+Devel-Mallinfo is Copyright 2007, 2008, 2009, 2010, 2011, 2014 Kevin Ryde
 
 Devel-Mallinfo is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the Free

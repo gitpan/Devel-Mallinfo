@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011, 2014 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 
@@ -28,7 +28,7 @@ use lib 't';
 use MyTestHelpers;
 BEGIN { MyTestHelpers::nowarnings(); }
 
-my $want_version = 12;
+my $want_version = 13;
 ok ($Devel::Mallinfo::VERSION,
     $want_version,
     'VERSION variable');

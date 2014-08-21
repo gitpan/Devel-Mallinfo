@@ -14,6 +14,7 @@ devel/mallopt.c
 devel/mallstats.c
 devel/malltrim.c
 devel/mstat.pl
+devel/old-run.pl
 devel/run.pl
 devel/taint.pl
 devel/weaken.pl
@@ -23,7 +24,6 @@ examples/malloc-info.pl
 examples/malloc-stats.pl
 inc/config.pl
 inc/my_pod2html
-inc/MyMakeMakerExtras.pm
 lib/Devel/Mallinfo.pm
 Makefile.PL
 Mallinfo.xs
@@ -53,4 +53,8 @@ xt/0-Test-DistManifest.t
 xt/0-Test-Pod.t
 xt/0-Test-Synopsis.t
 xt/0-Test-YAML-Meta.t
-META.yml                                 Module meta-data (added by MakeMaker)
+xtools/my-check-copyright-years.sh
+xtools/my-check-spelling.sh
+xtools/my-deb.sh
+META.yml                                 Module YAML meta-data (added by MakeMaker)
+META.json                                Module JSON meta-data (added by MakeMaker)

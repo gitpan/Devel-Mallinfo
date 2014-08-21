@@ -1,6 +1,6 @@
-#!/usr/bin/perl
+#!/usr/bin/perl -w
 
-# Copyright 2007, 2008, 2009, 2010, 2011 Kevin Ryde
+# Copyright 2007, 2008, 2009, 2010, 2011, 2012, 2014 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -19,15 +19,13 @@
 
 use strict;
 use ExtUtils::MakeMaker;
-use lib 'inc';
-use MyMakeMakerExtras;
 
 # If WriteMakefile sees conftest.c file it'll add it to O_FILES, which we
 # don't want.  In a clean dist conftest.c won't exist, but it can be left
 # over if you're fiddling with multiple Makefile.PL runs and builds.
 unlink ('conftest.c');
 
-MyMakeMakerExtras::WriteMakefile
+WriteMakefile
   (NAME         => 'Devel::Mallinfo',
    ABSTRACT     => 'Get mallinfo() malloc memory stats, and more.',
    VERSION_FROM => 'lib/Devel/Mallinfo.pm',
@@ -38,8 +36,8 @@ MyMakeMakerExtras::WriteMakefile
                     'Test' => 0,
                     'lib' => 0,
                    },
-   AUTHOR       => 'Kevin Ryde <user42@zip.com.au>',
-   LICENSE      => 'gpl',
+   AUTHOR       => 'Kevin Ryde <user42_kevin@yahoo.com.au>',
+   LICENSE      => 'gpl_3',
    SIGN         => 1,
    # probably anything, dunno if can get a Test.pm going far enough back
    MIN_PERL_VERSION => '5',
@@ -57,7 +55,10 @@ MyMakeMakerExtras::WriteMakefile
    META_MERGE =>
    { resources =>
      { homepage => 'http://user42.tuxfamily.org/devel-mallinfo/index.html',
+       license  => 'http://www.gnu.org/licenses/gpl.html',
      },
+     no_index => { directory=>['devel'] },
+
      optional_features =>
      { maximum_tests =>
        { description => 'Have "make test" do as much as possible.',
@@ -67,7 +68,6 @@ MyMakeMakerExtras::WriteMakefile
        },
      },
    },
-   MyMakeMakerExtras_Pod_Coverage => [ 'Devel::Mallinfo' ],
   );
 
 #------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ package MY;
 
 sub postamble {
   my ($makemaker) = @_;
-  return MyMakeMakerExtras::postamble($makemaker) . <<'HERE';
+  return <<'HERE';
 
 config.h: inc/config.pl Makefile
 	$(PERL) inc/config.pl "$(MAKE)" "$(OBJ_EXT)" "$(EXE_EXT)"

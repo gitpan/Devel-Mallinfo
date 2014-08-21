@@ -1,6 +1,6 @@
-#!/usr/bin/make -f
+#!/usr/bin/perl -w
 
-# Copyright 2007, 2008, 2014 Kevin Ryde
+# Copyright 2007, 2012 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -17,7 +17,20 @@
 # You should have received a copy of the GNU General Public License along
 # with Devel-Mallinfo.  If not, see <http://www.gnu.org/licenses/>.
 
-include /usr/share/cdbs/1/rules/debhelper.mk
-include /usr/share/cdbs/1/class/perl-makemaker.mk
+use Data::Dumper;
+BEGIN {
+  push @INC, '/home/gg/mallinfo/lib', '/home/gg/mallinfo/blib/arch';
+}
 
-DEB_INSTALL_EXAMPLES_libdevel-mallinfo-perl = examples/*
+use Devel::Mallinfo;
+my $h = Devel::Mallinfo::mallinfo;
+print "$h\n";
+print Dumper (\$h);
+
+print "arena ", $h->{'arena'}, "\n";
+
+    my $info = Devel::Mallinfo::mallinfo();
+    foreach my $field (keys %$info) {
+      print "$field is $info->{$field}\n";
+    }
+
