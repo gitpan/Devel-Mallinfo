@@ -58,8 +58,9 @@ do
   case $i in \
     '' | */ \
     | ppport.h \
-    | debian/changelog | debian/compat | debian/doc-base \
-    | debian/patches/*.diff | debian/source/format \
+    | debian/changelog | debian/doc-base \
+    | debian/compat | debian/emacsen-compat | debian/source/format \
+    | debian/patches/*.diff \
     | COPYING | MANIFEST* | SIGNATURE | META.yml | META.json \
     | version.texi | */version.texi \
     | *utf16* | examples/rs''s2lea''fnode.conf \

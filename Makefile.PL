@@ -77,8 +77,8 @@ sub postamble {
   my ($makemaker) = @_;
   return <<'HERE';
 
-config.h: inc/config.pl Makefile
-	$(PERL) inc/config.pl "$(MAKE)" "$(OBJ_EXT)" "$(EXE_EXT)"
+config.h: config.pl Makefile
+	$(PERL) config.pl "$(MAKE)" "$(OBJ_EXT)" "$(EXE_EXT)"
 
 # A reasonable "make" should already have a default rule for obj->exe, or at
 # least for c->exe, but that's apparently not the case for dmake on msdos,

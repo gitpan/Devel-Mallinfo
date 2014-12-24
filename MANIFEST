@@ -1,4 +1,5 @@
 Changes
+config.pl
 COPYING
 debian/changelog
 debian/compat
@@ -22,7 +23,6 @@ examples/mallinfo.pl
 examples/malloc-info-string.pl
 examples/malloc-info.pl
 examples/malloc-stats.pl
-inc/config.pl
 inc/my_pod2html
 lib/Devel/Mallinfo.pm
 Makefile.PL
@@ -56,5 +56,6 @@ xt/0-Test-YAML-Meta.t
 xtools/my-check-copyright-years.sh
 xtools/my-check-spelling.sh
 xtools/my-deb.sh
+xtools/my_pod2html
 META.yml                                 Module YAML meta-data (added by MakeMaker)
 META.json                                Module JSON meta-data (added by MakeMaker)

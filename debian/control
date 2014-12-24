@@ -25,7 +25,7 @@ Section: perl
 Priority: optional
 Build-Depends: liblib-perl | perl (>= 5.001), libtest-perl | perl (>= 5.004.05), cdbs, debhelper (>= 5)
 Maintainer: Kevin Ryde <user42_kevin@yahoo.com.au>
-Standards-Version: 3.9.5
+Standards-Version: 3.9.6
 Homepage: http://user42.tuxfamily.org/devel-mallinfo/index.html
 Bugs: mailto:user42_kevin@yahoo.com.au
 

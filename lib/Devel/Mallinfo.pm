@@ -24,7 +24,7 @@ use Exporter;
 use DynaLoader;
 @ISA = ('Exporter', 'DynaLoader');
 
-$VERSION = 13;
+$VERSION = 14;
 
 @EXPORT_OK = ('mallinfo');
 %EXPORT_TAGS = (all => \@EXPORT_OK);
@@ -56,15 +56,15 @@ Devel::Mallinfo -- mallinfo() memory statistics and more
 
 C<Devel::Mallinfo> is an interface to the C library C<mallinfo()> function
 giving various totals for memory used by C<malloc()>.  It's meant for
-development use, to give you an idea how much memory a program and libraries
-are using.  Interfaces to some GNU C Library specific malloc information are
+development use, to give an idea how much memory a program and libraries are
+using.  Interfaces to some GNU C Library specific malloc information are
 provided too, when available.
 
 C<malloc()> isn't the only way memory may be used.  Program and library data
 and bss segments and the occasional direct C<mmap()> don't show up in
 C<mallinfo()>.  But normally almost all runtime space goes through
-C<malloc()> so it's close to the total, and dynamic usage is often what
-you're interested in anyway.
+C<malloc()> so it's close to the total and dynamic usage is often what's of
+interest anyway.
 
 See the F<examples> directory in the Devel-Mallinfo sources for some
 programs printing malloc info.
@@ -109,7 +109,7 @@ time, so everything on the system should be available.  If C<mallinfo()> is
 not available at all in whatever C<malloc()> library Perl is using then
 C<mallinfo()> returns a reference to an empty hash.
 
-A new hash is created and returned each time, so later calls don't change a
+A new hash is created and returned each time, so later calls don't change
 previously returned info.
 
 =back
@@ -165,32 +165,33 @@ sequence.  (Perl's C<STDERR> is unbuffered by default.)
 =item C<$str = Devel::Mallinfo::malloc_info_string ($options)>
 
 Print malloc usage information to file handle C<$fh>, or return it as a
-string C<$str>.  There are no C<$options> values yet and it should be 0.
+string C<$str>.  There are no C<$options> values yet and that parameter
+should be 0.
 
-C<malloc_info> returns 0 on success.  It writes to C<$fh> as a C C<FILE*>,
-so PerlIO layers are ignored and any UTF8 flag may be forcibly turned off.
-Perhaps this will improve in the future.
+C<malloc_info()> returns 0 on success.  It writes to C<$fh> as a C C<FILE*>,
+so PerlIO layers are ignored and a the XSUB casting might forcibly turn off
+any UTF8 flag.  Perhaps this will improve in the future.
 
     Devel::Mallinfo::malloc_info(0,\*STDOUT) == 0
       or die "oops, malloc_info() error";
 
 C<malloc_info_string()> is an extra in C<Devel::Mallinfo> getting the output
-as a string (currently implemented with a temporary file).  On error it
+as a string (currently implemented through a temporary file).  On error it
 returns C<undef> and sets errno C<$!>.
 
     my $str = Devel::Mallinfo::malloc_info_string(0)
-      // die "Cannot get malloc_info() error: $!";
+      // die "Cannot get malloc_info(), error: $!";
 
 The output is vaguely XML and has more detail than C<mallinfo()> gives.  If
-attempting a strict parse then note Glibc 2.10.1 and earlier missed a couple
-of closing quotes in the final "E<lt>systemE<gt>" elements.
+doing a strict parse then note Glibc 2.10.1 and earlier missed some closing
+quotes in the final "E<lt>systemE<gt>" elements.
 
 =item C<$status = Devel::Mallinfo::malloc_trim ($bytes)>
 
 Trim free space at the top of the arena down to C<$bytes>.  Return 1 if
 memory was freed, 0 if not.  Normally C<free()> itself trims when there's
-enough to be worth releasing, but if you think the C<keepcost> is high then
-you can explicitly release some.
+enough to be worth releasing, but if you think the C<keepcost> which is the
+space there is too high then you can explicitly release some.
 
 Glibc only frees whole pages (C<sysconf(_SC_PAGESIZE)> bytes), so if
 reducing to C<$bytes> doesn't free at least one whole page then the return

@@ -1,6 +1,6 @@
 #!/usr/bin/perl -w
 
-# Copyright 2009, 2010 Kevin Ryde
+# Copyright 2009, 2010, 2014 Kevin Ryde
 
 # This file is part of Devel-Mallinfo.
 #
@@ -23,17 +23,17 @@ use warnings;
 use Devel::Mallinfo;
 
 {
-  for (;;) {
-    Devel::Mallinfo::malloc_info_string(0);
-  }
-  exit 0;
-}
-
-{
   my $str = Devel::Mallinfo::malloc_info_string(0);
   my $err = "$!";
   print "", (defined $str ? $str : 'undef'),"\n";
   print "errno $err\n";
+  exit 0;
+}
+
+{
+  for (;;) {
+    Devel::Mallinfo::malloc_info_string(0);
+  }
   exit 0;
 }
 
